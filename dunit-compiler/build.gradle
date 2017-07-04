@@ -1,4 +1,6 @@
 apply plugin: 'java'
+//bintray
+apply plugin: 'com.novoda.bintray-release'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -15,3 +17,12 @@ dependencies {
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+publish {
+    userOrg = 'tik'
+    groupId = 'top.ftas'
+    artifactId = 'dunit-compiler'
+    publishVersion = '0.1'
+    desc = 'DUnit is used to test or display functions or components to others.'
+    website = 'https://github.com/tik5213/DUnit'
+}
