@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/simplelist_dunit_item_btn"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_bg_simplelist_dunit"
+        android:layout_width="300dp"
+        android:textAllCaps="false"
+        android:layout_height="50dp">
+
+</Button>
