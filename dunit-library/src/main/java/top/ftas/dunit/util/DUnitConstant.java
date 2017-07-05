@@ -26,9 +26,10 @@ public class DUnitConstant {
 		public static final String QUALIFIED_NAME_DUNIT = DUnit.class.getName().replace("$",".");
 
 		//DefaultValue
-		public static final int DEFAULT_VALUE_INT = -1;
-		public static final String DEFAULT_VALUE_STRING = "";
+		public static final int DEFAULT_VALUE_INT = -9999;
+		public static final String DEFAULT_VALUE_STRING = "DEFAULT_VALUE_STRING";
 		public interface DEFAULT_VALUE_GROUP extends DUnitGroupInterface{}
 		public static final String DEFAULT_VALUE_GROUP_NAME = DEFAULT_VALUE_GROUP.class.getName();
+		public static final int DEFAULT_VALUE_THREAD_MODEL = -9999;
 	}
 }

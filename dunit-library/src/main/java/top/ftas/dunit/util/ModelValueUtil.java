@@ -1,6 +1,7 @@
 package top.ftas.dunit.util;
 
-import top.ftas.dunit.annotation.DUnitGroup;
+import android.util.Log;
+
 import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.group.DUnitRootGroup;
 import top.ftas.dunit.model.DUnitBaseModel;
@@ -56,11 +57,13 @@ public class ModelValueUtil {
 	public static Class<? extends DUnitGroupInterface> getUnitGroup(DUnitBaseModel unitModel){
 		try {
 			String groupClassName = unitModel.getGroupClassName();
-			if (unitModel.isDirectlyAnnotated() && (!DEFAULT_VALUE_GROUP_NAME.equals(groupClassName))) {
+//			Log.i("test","---------> groupClassName:" + groupClassName + " unitModel:" + unitModel);
+			if (!DEFAULT_VALUE_GROUP_NAME.equals(groupClassName)) {
 				Class<? extends DUnitGroupInterface> group = (Class<? extends DUnitGroupInterface>) Class.forName(groupClassName);
 				return group;
 			}
 		}catch (Exception e){
+			e.printStackTrace();
 		}
 		return DUnitRootGroup.class;
 	}

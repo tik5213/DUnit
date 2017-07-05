@@ -25,6 +25,11 @@ import top.ftas.dunit.model.DUnitModel;
 import top.ftas.dunit.thread.DUnitThreadManager;
 import top.ftas.dunit.util.LogUtil;
 
+import static top.ftas.dunit.util.ThreadModel.CURRENT_THREAD;
+import static top.ftas.dunit.util.ThreadModel.IO;
+import static top.ftas.dunit.util.ThreadModel.MAIN;
+import static top.ftas.dunit.util.ThreadModel.NEW_THREAD;
+
 /**
  * Created by tik on 17/6/28.
  */

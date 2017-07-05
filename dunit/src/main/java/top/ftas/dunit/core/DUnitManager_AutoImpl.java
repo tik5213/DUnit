@@ -7,6 +7,8 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.xml.datatype.DatatypeConstants;
+
 import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.group.DUnitRootGroup;
 import top.ftas.dunit.model.DUnitBaseModel;
@@ -53,7 +55,7 @@ final class DUnitManager_AutoImpl extends DUnitManager{
 				unitModel.setOriginal(unitGroupClass);
 
 				//Name
-				if (Strings.isNullOrEmpty(unitModel.getName())){
+				if (DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(unitModel.getName())){
 					unitModel.setName(unitGroupClass.getSimpleName());
 				}
 

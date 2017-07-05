@@ -7,13 +7,13 @@ import top.ftas.dunit.util.ThreadModel;
  */
 
 public class DUnitModel extends DUnitBaseModel{
-	private ThreadModel threadMode;
+	private int threadMode;
 
-	public ThreadModel getThreadMode() {
+	public int getThreadMode() {
 		return threadMode;
 	}
 
-	public void setThreadMode(ThreadModel threadMode) {
+	public void setThreadMode(int threadMode) {
 		this.threadMode = threadMode;
 	}
 

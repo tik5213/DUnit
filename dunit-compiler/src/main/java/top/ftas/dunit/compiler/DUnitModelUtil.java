@@ -40,6 +40,40 @@ public class DUnitModelUtil {
 		mTypes = types;
 	}
 
+	public DUnitModel createParentUnitModel(Element type, DUnit dUnit) {
+		TypeElement superElement = ElementUtil.getSuperElement(mTypes,type);
+		DUnitModel unitModel;
+		if (superElement != null && superElement.getAnnotation(DUnit.class) != null){
+			unitModel = createParentUnitModel(superElement,superElement.getAnnotation(DUnit.class));
+		}else {
+			unitModel = createUnitModelWithDefaultValue();
+		}
+
+		//组装DUnitModel
+		if (dUnit.threadMode() != DUnitConstant.Sys.DEFAULT_VALUE_THREAD_MODEL){
+			unitModel.setThreadMode(dUnit.threadMode());
+		}
+		if (dUnit.priority() != DUnitConstant.Sys.DEFAULT_VALUE_INT){
+			unitModel.setPriority(dUnit.priority());
+		}
+
+		//GroupClassName
+		String groupClassName = getUnitModelGroupClassName(dUnit);
+		if (!DUnitConstant.Sys.DEFAULT_VALUE_GROUP_NAME.equals(groupClassName)){
+			unitModel.setGroupClassName(groupClassName);
+		}
+
+		//Name
+		String name = dUnit.value();
+		if (DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(name)){
+			name = dUnit.name();
+		}
+		if (!DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(name)){
+			unitModel.setName(name);
+		}
+		return unitModel;
+	}
+
 	/**
 	 * 创建UnitModel
 	 * @param type
@@ -48,11 +82,20 @@ public class DUnitModelUtil {
 	public DUnitModel createUnitModel(TypeElement type, DUnit dUnit) {
 		//OriginalClassName
 		String originalClassName = getRealClassName(type);
-
 		//组装DUnitModel
-		DUnitModel unitModel = new DUnitModel();
-		unitModel.setThreadMode(dUnit.threadMode());
-		unitModel.setPriority(dUnit.priority());
+		DUnitModel unitModel;
+		Element parentElement = ElementUtil.getSuperElement(mTypes,type);
+		if (parentElement != null && parentElement.getAnnotation(DUnit.class) != null){
+			unitModel = createParentUnitModel(parentElement,parentElement.getAnnotation(DUnit.class));
+		}else {
+			unitModel = createUnitModelWithDefaultValue();
+		}
+		if (dUnit.threadMode() != DUnitConstant.Sys.DEFAULT_VALUE_THREAD_MODEL){
+			unitModel.setThreadMode(dUnit.threadMode());
+		}
+		if (dUnit.priority() != DUnitConstant.Sys.DEFAULT_VALUE_INT){
+			unitModel.setPriority(dUnit.priority());
+		}
 		unitModel.setOriginalClassName(originalClassName);
 
 		//DirectlyAnnotated
@@ -61,20 +104,35 @@ public class DUnitModelUtil {
 
 		//GroupClassName
 		String groupClassName = getUnitModelGroupClassName(dUnit);
-		unitModel.setGroupClassName(groupClassName);
+		if (!DUnitConstant.Sys.DEFAULT_VALUE_GROUP_NAME.equals(groupClassName)){
+			unitModel.setGroupClassName(groupClassName);
+		}
 
 		//Name
 		String name = dUnit.value();
-		if (Strings.isNullOrEmpty(name)){
+		if (DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(name)){
 			name = dUnit.name();
 		}
-		unitModel.setName(name);
+		if (!DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(name)){
+			unitModel.setName(name);
+		}
 
 		//DUnitHidden
 		unitModel.setHidden(type.getAnnotation(DUnitHidden.class) != null);
 
 		//Reporter
 		mErrorReporter.print("find DUnit class : " + unitModel.getOriginalClassName());
+
+		mErrorReporter.reportWaring("$$$$$$$$-->" +  unitModel.toString());
+		return unitModel;
+	}
+
+	private DUnitModel createUnitModelWithDefaultValue() {
+		DUnitModel unitModel = new DUnitModel();
+		unitModel.setThreadMode(DUnitConstant.Sys.DEFAULT_VALUE_THREAD_MODEL);
+		unitModel.setName(DUnitConstant.Sys.DEFAULT_VALUE_STRING);
+		unitModel.setPriority(DUnitConstant.Sys.DEFAULT_VALUE_INT);
+		unitModel.setGroupClassName(DUnitConstant.Sys.DEFAULT_VALUE_GROUP_NAME);
 		return unitModel;
 	}
 

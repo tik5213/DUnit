@@ -266,8 +266,8 @@ public class InitMethodUtil {
 
 				////Name
 				builder.addStatement("//Name");
-				//if (Strings.isNullOrEmpty(unitModel.getName())){
-				builder.addCode("if ($T.isNullOrEmpty(unitModel.getName())){\n",Strings.class);
+				//if (DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(unitModel.getName())){
+				builder.addCode("if ($T.Sys.DEFAULT_VALUE_STRING.equals(unitModel.getName())){\n",DUnitConstant.class);
 				//unitModel.setName(unitGroupClass.getSimpleName());
 				builder.addStatement("unitModel.setName(unitGroupClass.getSimpleName())");
 				//}

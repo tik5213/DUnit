@@ -4,25 +4,25 @@ package top.ftas.dunit.util;
  * Created by tik on 17/6/28.
  */
 
-public enum ThreadModel {
+public class ThreadModel {
 	/**
 	 * current thread
 	 */
-	CURRENT_THREAD,
+	public static final int CURRENT_THREAD = 1;
 
 	/**
 	 * android main thread
 	 */
-	MAIN,
+	public static final int MAIN = 2;
 
 
 	/**
 	 * new thread
 	 */
-	NEW_THREAD,
+	public static final int NEW_THREAD = 3;
 
 	/**
 	 * io
 	 */
-	IO
+	public static final int IO = 4;
 }

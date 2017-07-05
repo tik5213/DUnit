@@ -11,6 +11,9 @@ import top.ftas.dunit.group.DUnitRootGroup;
 import top.ftas.dunit.util.DUnitConstant;
 import top.ftas.dunit.util.ThreadModel;
 
+import static top.ftas.dunit.util.DUnitConstant.Sys.DEFAULT_VALUE_THREAD_MODEL;
+
+
 /**
  * Created by tik on 17/6/27.
  * 单元展示注解类
@@ -24,6 +27,6 @@ public @interface DUnit{
 	String value() default DUnitConstant.Sys.DEFAULT_VALUE_STRING;
 	String name() default DUnitConstant.Sys.DEFAULT_VALUE_STRING;
 	int priority() default DUnitConstant.Sys.DEFAULT_VALUE_INT;
-	ThreadModel threadMode() default ThreadModel.IO;
+	int threadMode() default DEFAULT_VALUE_THREAD_MODEL;
 	Class<? extends DUnitGroupInterface> group() default DUnitConstant.Sys.DEFAULT_VALUE_GROUP.class;
 }

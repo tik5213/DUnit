@@ -8,10 +8,8 @@ import top.ftas.dunit.sample.group.HttpGroup;
  * Created by tik on 17/7/4.
  */
 
-@DUnit(group = HttpGroup.OkHttpGroup.class,
-		name = "测试Okhttp的Post方法"
-)
-public class OkhttpPostMethodUnit extends AbstractDisplayUnit {
+@DUnit(name = "测试Okhttp的Post方法")
+public class OkhttpPostMethodUnit extends OkHttpBase {
 	@Override
 	public void callUnit() {
 

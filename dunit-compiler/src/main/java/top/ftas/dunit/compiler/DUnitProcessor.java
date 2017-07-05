@@ -84,10 +84,6 @@ public class DUnitProcessor extends AbstractProcessor {
 					mErrorReporter.abortWithError("@" + DUnit.class.getName() + " only applies to classes", type);
 				}
 
-				if (type.getAnnotation(DUnitHidden.class) != null){
-					continue;
-				}
-
 				DUnit dUnit = type.getAnnotation(DUnit.class);
 				if (dUnit != null) {
 					DUnitModel unitModel = mUnitModelUtil.createUnitModel(type, dUnit);
