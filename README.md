@@ -32,7 +32,7 @@ dependencies {
 
 Make sure the line `apply plugin ...` is placed somewhere at the top of the file.
 
-#Usage
+# Usage
 
 1. Define groups:
 
