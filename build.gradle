@@ -26,3 +26,8 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+//如果需要向bintray发布某个模块，下面对应的值设计为true
+tasks.getByPath(":dunit-library:bintrayUpload").enabled = false
+tasks.getByPath(":dunit-compiler:bintrayUpload").enabled = false
+tasks.getByPath(":dunit:bintrayUpload").enabled = false
