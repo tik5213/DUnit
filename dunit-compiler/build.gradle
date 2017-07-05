@@ -6,7 +6,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     //编译处理java文件时的公共类库
     try {
-        print project(':dunit-library')
+        compile project(':dunit-library')
     } catch(Exception ex) {
         compile 'top.ftas:dunit-library:0.1'
     }

@@ -32,7 +32,7 @@ dependencies {
     //Google用于简化编码的核心工具类库
     compile 'com.google.guava:guava:19.0'
     try {
-        print project(':dunit-library')
+        compile project(':dunit-library')
     } catch(Exception ex) {
         compile 'top.ftas:dunit-library:0.1'
     }
