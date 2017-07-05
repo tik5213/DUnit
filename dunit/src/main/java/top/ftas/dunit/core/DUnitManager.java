@@ -26,25 +26,46 @@ public abstract class DUnitManager {
 	private ArrayList<DUnitGroupModel> mUnitGroupModels;
 	private HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> mModelMap;
 
-	protected abstract ArrayList<DUnitModel>  initUnitModels();
-	protected abstract ArrayList<DUnitGroupModel> initUnitGroupModels();
-	protected abstract HashMap<Class<? extends DUnitGroupInterface>,ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels);
+	protected abstract HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels);
 
-	protected DUnitManager(){
+	protected  ArrayList<DUnitModel> initUnitModels(){
+		return new ArrayList<>();
+	}
+
+
+	protected ArrayList<DUnitGroupModel> initUnitGroupModels() {
+		return new ArrayList<>();
+	}
+
+	protected DUnitManager() {
 		mUnitGroupModels = initUnitGroupModels();
 		mUnitModels = initUnitModels();
-		mModelMap = createModelMap(mUnitGroupModels,mUnitModels);
+		mModelMap = createModelMap(mUnitGroupModels, mUnitModels);
 	}
 
 	public static DUnitManager getInstance() {
-		if (sInstance == null){
-			synchronized (DUnitManager.class){
-				if (sInstance == null){
+		if (sInstance == null) {
+			synchronized (DUnitManager.class) {
+				if (sInstance == null) {
 					try {
 						Class<?> clazz = Class.forName(DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_CANONICAL_NAME);
 						sInstance = (DUnitManager) clazz.newInstance();
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+						sInstance = new DUnitManager() {
+							@Override
+							protected ArrayList<DUnitModel> initUnitModels() {
+								return new ArrayList<>();
+							}
+
+							@Override
+							protected HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels) {
+								return new HashMap<>();
+							}
+						};
 					} catch (Exception e) {
 						e.printStackTrace();
+						throw new RuntimeException(e);
 					}
 				}
 			}
@@ -52,12 +73,12 @@ public abstract class DUnitManager {
 		return sInstance;
 	}
 
-	public void showUnitModels(Activity activity){
-		LogUtil.toast(activity,mUnitModels.toString());
+	public void showUnitModels(Activity activity) {
+		LogUtil.toast(activity, mUnitModels.toString());
 	}
 
-	public void showUnitGroupModels(Activity activity){
-		LogUtil.toast(activity,mUnitGroupModels.toString());
+	public void showUnitGroupModels(Activity activity) {
+		LogUtil.toast(activity, mUnitGroupModels.toString());
 	}
 
 	public ArrayList<DUnitModel> getUnitModels() {
@@ -72,8 +93,8 @@ public abstract class DUnitManager {
 		return mModelMap;
 	}
 
-	public void logTest(String msg){
-		Log.i("test",msg);
+	public void logTest(String msg) {
+		Log.i("test", msg);
 	}
 
 }

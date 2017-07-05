@@ -1,16 +1,19 @@
-apply plugin: 'com.android.library'
-//bintray
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
+
     defaultConfig {
+        applicationId "top.ftas.dunit.sample_simple"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -24,26 +27,13 @@ android {
 }
 
 dependencies {
+    compile project(':dunit')
+    apt project(':dunit-compiler')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
-    //Google用于简化编码的核心工具类库
-    compile 'com.google.guava:guava:19.0'
-    try {
-        compile project(':dunit-library')
-    } catch(Exception ex) {
-        compile 'top.ftas:dunit-library:0.1.1'
-    }
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-}
-
-publish {
-    userOrg = 'tik'
-    groupId = 'top.ftas'
-    artifactId = 'dunit'
-    publishVersion = '0.1.1'
-    desc = 'DUnit is used to test or display functions or components to others.'
-    website = 'https://github.com/tik5213/DUnit'
 }

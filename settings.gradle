@@ -1,1 +1,1 @@
-include ':dunit', ':sample', ':dunit-compiler', ':dunit-library'
+include ':dunit', ':sample', ':dunit-compiler', ':dunit-library', ':sample-simple'

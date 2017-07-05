@@ -2,12 +2,10 @@ package top.ftas.dunit.sample;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
-import top.ftas.dunit.activity.DunitSimpleListActivity;
-import top.ftas.dunit.core.DUnitManager;
+import top.ftas.dunit.activity.DUnitSimpleListActivity;
 
-public class MainActivity extends DunitSimpleListActivity {
+public class MainActivity extends DUnitSimpleListActivity {
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -159,34 +159,56 @@ public class DUnitProcessor extends AbstractProcessor {
 	 * 在这里扫描和处理你的注解并生成Java代码
 	 */
 	public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+		mErrorReporter.reportWaring("----------------开始");
 
 		MethodSpec methodSpec_initUnitModels = processUnitElements(set, roundEnvironment);
 		MethodSpec methodSpec_initUnitGroupModels = processUnitGroupElements(set, roundEnvironment);
+		if (methodSpec_initUnitModels == null){
+			mErrorReporter.reportWaring("initMethod_initUnitModels is null.");
+		}
+
+		if (methodSpec_initUnitGroupModels == null){
+			mErrorReporter.reportWaring("methodSpec_initUnitGroupModels is null.");
+		}
+
+		if (methodSpec_initUnitGroupModels == null && methodSpec_initUnitGroupModels == null){
+			mErrorReporter.reportWaring("initMethod_initUnitModels && methodSpec_initUnitGroupModels is null.");
+			return true;
+		}
+
 		MethodSpec methodSpec_createModelMap = InitMethodUtil.createMethodSpecBuilder_createModelMap().build();
-		if (methodSpec_initUnitModels != null && methodSpec_initUnitGroupModels != null) {
+
+		mErrorReporter.reportWaring("----------------中间");
+
+		try {
 			//声明类DUnitManager_AutoImpl1，并添加方法
 			ClassName typeName = ClassName.bestGuess(DUnitConstant.Sys.DUNIT_MANAGER_CANONICAL_NAME);
-			TypeSpec DUnitManager_AutoImpl = TypeSpec
+			TypeSpec.Builder typeSpecBuild_DUnitManager_AutoImpl = TypeSpec
 					.classBuilder(DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME)
 					.addModifiers(Modifier.FINAL)
+					.addModifiers(Modifier.PUBLIC)
 					.superclass(typeName)
-					.addMethod(methodSpec_initUnitModels)
-					.addMethod(methodSpec_initUnitGroupModels)
-					.addMethod(methodSpec_createModelMap)
-					.build();
+					.addMethod(methodSpec_createModelMap);
+			if (methodSpec_initUnitModels != null){
+				typeSpecBuild_DUnitManager_AutoImpl.addMethod(methodSpec_initUnitModels);
+			}
+			if (methodSpec_initUnitGroupModels != null){
+				typeSpecBuild_DUnitManager_AutoImpl.addMethod(methodSpec_initUnitGroupModels);
+			}
+			TypeSpec typeSpec_DUnitManager_AutoImpl = typeSpecBuild_DUnitManager_AutoImpl.build();
+
 
 			//创建Java文件
 			JavaFile javaFile = JavaFile
-					.builder(DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_PKG, DUnitManager_AutoImpl)
+					.builder(DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_PKG, typeSpec_DUnitManager_AutoImpl)
 					.addStaticImport(DUnitConstant.Sys.class,"DEFAULT_VALUE_GROUP_NAME")
 					.build();
-			try {
-				javaFile.writeTo(processingEnv.getFiler());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			mErrorReporter.reportWaring("initMethod_initUnitModels or initMethod_initUnitGroupModels is null.");
+			javaFile.writeTo(processingEnv.getFiler());
+			mErrorReporter.reportWaring("----------------结束");
+		} catch (Exception e) {
+			mErrorReporter.reportError("--------->" + e.getMessage());
+			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return true;
 	}

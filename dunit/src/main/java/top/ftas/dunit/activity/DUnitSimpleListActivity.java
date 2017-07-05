@@ -29,7 +29,7 @@ import top.ftas.dunit.util.LogUtil;
  * Created by tik on 17/6/28.
  */
 
-public class DunitSimpleListActivity extends AppCompatActivity{
+public class DUnitSimpleListActivity extends AppCompatActivity{
 	public static final String KEY_GROUP = "KEY_GROUP";
 	private LinearLayout mMainLinearLayout;
 	private Activity mActivity;
@@ -39,6 +39,7 @@ public class DunitSimpleListActivity extends AppCompatActivity{
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ArrayList<DUnitBaseModel> unitModels = null;
+		setContentView(R.layout.activity_simplelist_empty_dunit);
 		try {
 			Class<? extends DUnitGroupInterface> group = getCurrentGroup();
 			DUnitManager dUnitManager = DUnitManager.getInstance();
@@ -168,8 +169,8 @@ public class DunitSimpleListActivity extends AppCompatActivity{
 		try {
 			Class<?> unitClass = Class.forName(unitModel.getOriginalClassName());
 			AbstractDisplayUnit displayUnit = (AbstractDisplayUnit) unitClass.newInstance();
-			displayUnit.setContext(DunitSimpleListActivity.this.getApplicationContext());
-			displayUnit.setActivity(DunitSimpleListActivity.this);
+			displayUnit.setContext(DUnitSimpleListActivity.this.getApplicationContext());
+			displayUnit.setActivity(DUnitSimpleListActivity.this);
 			callDisplayUnit(displayUnit, (DUnitModel) unitModel);
 		}catch (Exception e){
 			log(e);
