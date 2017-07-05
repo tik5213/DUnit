@@ -5,7 +5,11 @@ apply plugin: 'com.novoda.bintray-release'
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     //编译处理java文件时的公共类库
-    compile project(':dunit-library')
+    try {
+        print project(':dunit-library')
+    } catch(Exception ex) {
+        compile 'top.ftas:dunit-library:0.1'
+    }
     //用于自动生成java源代码的类库
     compile 'com.squareup:javapoet:1.9.0'
     //Google用于简化编码的核心工具类库
