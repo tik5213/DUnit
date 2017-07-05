@@ -123,7 +123,6 @@ public class DUnitModelUtil {
 		//Reporter
 		mErrorReporter.print("find DUnit class : " + unitModel.getOriginalClassName());
 
-		mErrorReporter.reportWaring("$$$$$$$$-->" +  unitModel.toString());
 		return unitModel;
 	}
 
