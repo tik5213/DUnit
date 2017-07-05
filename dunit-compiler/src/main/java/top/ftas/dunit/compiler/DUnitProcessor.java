@@ -159,26 +159,22 @@ public class DUnitProcessor extends AbstractProcessor {
 	 * 在这里扫描和处理你的注解并生成Java代码
 	 */
 	public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-		mErrorReporter.reportWaring("----------------开始");
-
 		MethodSpec methodSpec_initUnitModels = processUnitElements(set, roundEnvironment);
 		MethodSpec methodSpec_initUnitGroupModels = processUnitGroupElements(set, roundEnvironment);
 		if (methodSpec_initUnitModels == null){
-			mErrorReporter.reportWaring("initMethod_initUnitModels is null.");
+			mErrorReporter.reportWaring("methodSpec_initUnitModels is null.");
 		}
 
 		if (methodSpec_initUnitGroupModels == null){
 			mErrorReporter.reportWaring("methodSpec_initUnitGroupModels is null.");
 		}
 
-		if (methodSpec_initUnitGroupModels == null && methodSpec_initUnitGroupModels == null){
-			mErrorReporter.reportWaring("initMethod_initUnitModels && methodSpec_initUnitGroupModels is null.");
+		if (methodSpec_initUnitModels == null && methodSpec_initUnitGroupModels == null){
+			mErrorReporter.reportWaring("methodSpec_initUnitModels && methodSpec_initUnitGroupModels is null.");
 			return true;
 		}
 
 		MethodSpec methodSpec_createModelMap = InitMethodUtil.createMethodSpecBuilder_createModelMap().build();
-
-		mErrorReporter.reportWaring("----------------中间");
 
 		try {
 			//声明类DUnitManager_AutoImpl1，并添加方法
@@ -204,7 +200,6 @@ public class DUnitProcessor extends AbstractProcessor {
 					.addStaticImport(DUnitConstant.Sys.class,"DEFAULT_VALUE_GROUP_NAME")
 					.build();
 			javaFile.writeTo(processingEnv.getFiler());
-			mErrorReporter.reportWaring("----------------结束");
 		} catch (Exception e) {
 			mErrorReporter.reportError("--------->" + e.getMessage());
 			e.printStackTrace();
