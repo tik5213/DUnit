@@ -72,6 +72,7 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 		for (DUnitBaseModel unitModel :
 				unitModels) {
 			try {
+				if (unitModel.isHidden()) continue;
 				addDisplayUnitButton(unitModel);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

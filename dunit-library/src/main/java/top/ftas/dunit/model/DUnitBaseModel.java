@@ -8,6 +8,7 @@ import top.ftas.dunit.group.DUnitGroupInterface;
 
 public abstract class DUnitBaseModel {
 	private boolean isDirectlyAnnotated;
+	private boolean isHidden;
 	private int priority;
 	private String name;
 
@@ -67,6 +68,14 @@ public abstract class DUnitBaseModel {
 
 	public Class getOriginal() {
 		return original;
+	}
+
+	public boolean isHidden() {
+		return isHidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		isHidden = hidden;
 	}
 
 	public void setOriginal(Class original) {

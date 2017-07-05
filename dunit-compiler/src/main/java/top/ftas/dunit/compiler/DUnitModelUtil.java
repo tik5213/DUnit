@@ -20,6 +20,7 @@ import javax.lang.model.util.Types;
 
 import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.annotation.DUnitGroup;
+import top.ftas.dunit.annotation.DUnitHidden;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
 import top.ftas.dunit.util.DUnitConstant;
@@ -69,6 +70,9 @@ public class DUnitModelUtil {
 		}
 		unitModel.setName(name);
 
+		//DUnitHidden
+		unitModel.setHidden(type.getAnnotation(DUnitHidden.class) != null);
+
 		//Reporter
 		mErrorReporter.print("find DUnit class : " + unitModel.getOriginalClassName());
 		return unitModel;
@@ -103,6 +107,9 @@ public class DUnitModelUtil {
 			name = dUnitGroup.name();
 		}
 		unitGroupModel.setName(name);
+
+		//DUnitHidden
+		unitGroupModel.setHidden(type.getAnnotation(DUnitHidden.class) != null);
 
 		//Reporter
 		mErrorReporter.print("find DUnitGroup class : " + unitGroupModel.getOriginalClassName());

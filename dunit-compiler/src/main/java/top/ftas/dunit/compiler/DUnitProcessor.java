@@ -29,6 +29,7 @@ import javax.lang.model.util.Types;
 
 import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.annotation.DUnitGroup;
+import top.ftas.dunit.annotation.DUnitHidden;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
 import top.ftas.dunit.util.DUnitConstant;
@@ -83,6 +84,10 @@ public class DUnitProcessor extends AbstractProcessor {
 					mErrorReporter.abortWithError("@" + DUnit.class.getName() + " only applies to classes", type);
 				}
 
+				if (type.getAnnotation(DUnitHidden.class) != null){
+					continue;
+				}
+
 				DUnit dUnit = type.getAnnotation(DUnit.class);
 				if (dUnit != null) {
 					DUnitModel unitModel = mUnitModelUtil.createUnitModel(type, dUnit);
@@ -129,7 +134,6 @@ public class DUnitProcessor extends AbstractProcessor {
 				if (type.getKind() != ElementKind.CLASS) {
 					mErrorReporter.abortWithError("@" + DUnit.class.getName() + " only applies to classes", type);
 				}
-
 
 				DUnitGroup dUnitGroup = type.getAnnotation(DUnitGroup.class);
 
