@@ -23,8 +23,8 @@ public class ModelValueUtil {
 	}
 
 	public static String getStringValue(DUnitBaseModel model,String annotationValue,String tmpValue){
-		annotationValue = annotationValue == DEFAULT_VALUE_STRING ? tmpValue : annotationValue;
-		tmpValue = tmpValue == DEFAULT_VALUE_STRING ? annotationValue : tmpValue;
+		if (DEFAULT_VALUE_STRING.equals(annotationValue)) annotationValue = tmpValue;
+		if (DEFAULT_VALUE_STRING.equals(tmpValue)) tmpValue = annotationValue;
 		return model.isDirectlyAnnotated() ? annotationValue : tmpValue;
 	}
 

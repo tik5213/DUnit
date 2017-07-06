@@ -25,8 +25,8 @@ android {
 }
 
 dependencies {
-  compile 'top.ftas:dunit:0.1'
-  apt 'top.ftas:dunit-compiler:0.1'
+  compile 'top.ftas:dunit:0.2'
+  apt 'top.ftas:dunit-compiler:0.2'
 }
 ```
 
@@ -34,14 +34,25 @@ Make sure the line `apply plugin ...` is placed somewhere at the top of the file
 
 # Usage
 
-1. Define groups:
+1. Modify AndroidManifest.xml:
+
+	```java
+	<activity android:name="top.ftas.dunit.activity.DUnitSimpleListActivity">
+		<intent-filter>
+			<action android:name="android.intent.action.MAIN"/>
+			<category android:name="android.intent.category.LAUNCHER"/>
+		</intent-filter>
+	</activity>
+	```
+
+2. Define groups:
 
 	```java
 	@DUnitGroup("HttpGroup")
 	public class HttpGroup extends DUnitRootGroup{}
 	```
 
-2. Create a display unit：
+3. Create a display unit:
 
 	```java
 	@DUnit(
@@ -53,8 +64,6 @@ Make sure the line `apply plugin ...` is placed somewhere at the top of the file
 		public void callUnit() { /* Do something */ }
 	}
 	```
-
-
 
 
 
