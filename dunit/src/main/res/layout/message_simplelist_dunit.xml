@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_marginTop="5dp"
+              android:layout_marginLeft="10dp"
+              android:layout_marginRight="10dp"
+              android:visibility="gone"
+              android:background="@drawable/message_bg_simplelist_dunit"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/simplelist_dunit_message_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

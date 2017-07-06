@@ -273,6 +273,11 @@ public class InitMethodUtil {
 				//}
 				builder.addStatement("}");
 
+				////ThreadModel
+				builder.addStatement("//ThreadModel");
+				//ModelValueUtil.setUnitThreadModelDefaultValue(unitModel);
+				builder.addStatement("$T.setUnitThreadModelDefaultValue(unitModel)",ModelValueUtil.class);
+
 				////Group
 				builder.addStatement("//Group");
 				//unitModel.setGroup(ModelValueUtil.getUnitGroup(unitModel));

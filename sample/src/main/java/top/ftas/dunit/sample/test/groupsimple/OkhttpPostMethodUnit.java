@@ -12,6 +12,6 @@ import top.ftas.dunit.sample.group.HttpGroup;
 public class OkhttpPostMethodUnit extends OkHttpBase {
 	@Override
 	public void callUnit() {
-
+		mMessageHelper.append("我是MessageHelper!");
 	}
 }

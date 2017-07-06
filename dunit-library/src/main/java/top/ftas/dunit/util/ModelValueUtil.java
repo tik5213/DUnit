@@ -5,6 +5,7 @@ import android.util.Log;
 import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.group.DUnitRootGroup;
 import top.ftas.dunit.model.DUnitBaseModel;
+import top.ftas.dunit.model.DUnitModel;
 
 import static top.ftas.dunit.util.DUnitConstant.Sys.DEFAULT_VALUE_GROUP_NAME;
 import static top.ftas.dunit.util.DUnitConstant.Sys.DEFAULT_VALUE_INT;
@@ -51,6 +52,12 @@ public class ModelValueUtil {
 			}
 		}catch (Exception e){
 			return DUnitRootGroup.class;
+		}
+	}
+
+	public static void setUnitThreadModelDefaultValue(DUnitModel dUnitModel){
+		if (DUnitConstant.Sys.DEFAULT_VALUE_THREAD_MODEL == dUnitModel.getThreadMode()){
+			dUnitModel.setThreadMode(ThreadModel.IO);
 		}
 	}
 

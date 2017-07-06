@@ -14,6 +14,15 @@ import top.ftas.dunit.util.LogUtil;
 public abstract class AbstractDisplayUnit implements Runnable{
 	protected Activity mActivity;
 	protected Context mContext;
+	protected ResultMessageHelper mMessageHelper;
+
+	public ResultMessageHelper getMessageHelper() {
+		return mMessageHelper;
+	}
+
+	public void setMessageHelper(ResultMessageHelper messageHelper) {
+		mMessageHelper = messageHelper;
+	}
 
 	public Activity getActivity() {
 		return mActivity;

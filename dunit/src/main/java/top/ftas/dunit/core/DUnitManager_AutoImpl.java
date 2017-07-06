@@ -59,6 +59,9 @@ final class DUnitManager_AutoImpl extends DUnitManager{
 					unitModel.setName(unitGroupClass.getSimpleName());
 				}
 
+				//ThreadModel
+				ModelValueUtil.setUnitThreadModelDefaultValue(unitModel);
+
 				//Group
 				unitModel.setGroup(ModelValueUtil.getUnitGroup(unitModel));
 

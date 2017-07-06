@@ -3,13 +3,16 @@ package top.ftas.dunit.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,11 +20,13 @@ import java.util.Comparator;
 import top.ftas.dunit.R;
 import top.ftas.dunit.core.AbstractDisplayUnit;
 import top.ftas.dunit.core.DUnitManager;
+import top.ftas.dunit.core.ResultMessageHelper;
 import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.group.DUnitRootGroup;
 import top.ftas.dunit.model.DUnitBaseModel;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
+import top.ftas.dunit.model.ModelType;
 import top.ftas.dunit.thread.DUnitThreadManager;
 import top.ftas.dunit.util.LogUtil;
 
@@ -44,7 +49,7 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ArrayList<DUnitBaseModel> unitModels = null;
-		setContentView(R.layout.activity_simplelist_empty_dunit);
+		setContentView(R.layout.activity_empty_simplelist_dunit);
 		try {
 			Class<? extends DUnitGroupInterface> group = getCurrentGroup();
 			DUnitManager dUnitManager = DUnitManager.getInstance();
@@ -57,7 +62,7 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 		showHomeButton();
 		setActionBarTitle();
 		if (unitModels == null || unitModels.isEmpty()){
-			setContentView(R.layout.activity_simplelist_empty_dunit);
+			setContentView(R.layout.activity_empty_simplelist_dunit);
 			return;
 		}
 
@@ -152,7 +157,7 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 			public void onClick(View v) {
 				switch (unitModel.getModelType()){
 					case MODEL_TYPE_UNIT:
-						doUnit(unitModel);
+						doUnit(unitModel,v);
 						break;
 					case MODEL_TYPE_GROUP:
 						startNextPage(unitModel);
@@ -161,6 +166,11 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 			}
 		});
 		mMainLinearLayout.addView(button);
+		if (unitModel.getModelType() == ModelType.MODEL_TYPE_UNIT){
+			View messageView = getLayoutInflater().inflate(R.layout.message_simplelist_dunit,mMainLinearLayout,false);
+			mMainLinearLayout.addView(messageView);
+			button.setTag(messageView);
+		}
 	}
 
 	private void startNextPage(DUnitBaseModel unitModel) {
@@ -171,12 +181,70 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 		startActivity(intent);
 	}
 
-	private void doUnit(DUnitBaseModel unitModel) {
+	private static class SimpleResultMessageHelper implements ResultMessageHelper{
+		private WeakReference<TextView> mTextViewWeakReference;
+		private WeakReference<View> mViewWeakReference;
+		public SimpleResultMessageHelper(View view){
+			mViewWeakReference = new WeakReference<>(view);
+			TextView textView = (TextView) view.findViewById(R.id.simplelist_dunit_message_txt);
+			mTextViewWeakReference = new WeakReference<>(textView);
+		}
+
+		@Override
+		public void print(final String resultMessage) {
+			DUnitThreadManager.getInstance().postMain(new Runnable() {
+				@Override
+				public void run() {
+					View v = mViewWeakReference.get();
+					v.setVisibility(View.VISIBLE);
+					TextView textView = mTextViewWeakReference.get();
+					textView.setText(resultMessage);
+				}
+			});
+		}
+
+		@Override
+		public void append(final String resultMessage) {
+			DUnitThreadManager.getInstance().postMain(new Runnable() {
+				@Override
+				public void run() {
+					View v = mViewWeakReference.get();
+					v.setVisibility(View.VISIBLE);
+					TextView textView = mTextViewWeakReference.get();
+					String msg = textView.getText() + resultMessage;
+					textView.setText(msg);
+				}
+			});
+		}
+
+		@Override
+		public void hidden() {
+			DUnitThreadManager.getInstance().postMain(new Runnable() {
+				@Override
+				public void run() {
+					mViewWeakReference.get().setVisibility(View.GONE);
+				}
+			});
+		}
+
+		@Override
+		public void show() {
+			DUnitThreadManager.getInstance().postMain(new Runnable() {
+				@Override
+				public void run() {
+					mViewWeakReference.get().setVisibility(View.VISIBLE);
+				}
+			});
+		}
+	}
+
+	private void doUnit(DUnitBaseModel unitModel, View v) {
 		try {
 			Class<?> unitClass = Class.forName(unitModel.getOriginalClassName());
 			AbstractDisplayUnit displayUnit = (AbstractDisplayUnit) unitClass.newInstance();
 			displayUnit.setContext(DUnitSimpleListActivity.this.getApplicationContext());
 			displayUnit.setActivity(DUnitSimpleListActivity.this);
+			displayUnit.setMessageHelper(new SimpleResultMessageHelper((View) v.getTag()));
 			callDisplayUnit(displayUnit, (DUnitModel) unitModel);
 		}catch (Exception e){
 			log(e);
