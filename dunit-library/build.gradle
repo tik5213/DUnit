@@ -15,7 +15,7 @@ publish {
     userOrg = 'tik'
     groupId = 'top.ftas'
     artifactId = 'dunit-library'
-    publishVersion = '0.1.6'
+    publishVersion = '0.1.7'
     desc = 'DUnit is used to test or display functions or components to others.'
     website = 'https://github.com/tik5213/DUnit'
 }

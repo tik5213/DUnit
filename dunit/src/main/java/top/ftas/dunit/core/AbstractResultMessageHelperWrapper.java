@@ -9,24 +9,29 @@ public abstract class AbstractResultMessageHelperWrapper implements ResultMessag
 	public AbstractResultMessageHelperWrapper(ResultMessageHelper messageHelper){
 		mOriginalMessageHelper = messageHelper;
 	}
+
+	public String processMessage(String resultMessage){
+		return resultMessage;
+	}
+
 	@Override
 	public void print(String resultMessage) {
-		mOriginalMessageHelper.print(resultMessage);
+		mOriginalMessageHelper.print(processMessage(resultMessage));
 	}
 
 	@Override
 	public void printLine(String resultMessage) {
-		mOriginalMessageHelper.printLine(resultMessage);
+		mOriginalMessageHelper.printLine(processMessage(resultMessage));
 	}
 
 	@Override
 	public void append(String resultMessage) {
-		mOriginalMessageHelper.append(resultMessage);
+		mOriginalMessageHelper.append(processMessage(resultMessage));
 	}
 
 	@Override
 	public void appendLine(String resultMessage) {
-		mOriginalMessageHelper.appendLine(resultMessage);
+		mOriginalMessageHelper.appendLine(processMessage(resultMessage));
 	}
 
 	@Override
