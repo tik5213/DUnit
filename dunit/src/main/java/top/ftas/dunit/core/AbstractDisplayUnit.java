@@ -2,8 +2,11 @@ package top.ftas.dunit.core;
 
 import android.app.Activity;
 import android.content.Context;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import top.ftas.dunit.annotation.DUnit;
+import top.ftas.dunit.model.DUnitModel;
 import top.ftas.dunit.util.LogUtil;
 
 /**
@@ -16,7 +19,12 @@ public abstract class AbstractDisplayUnit implements Runnable{
 	protected Context mContext;
 	protected ResultMessageHelper mMessageHelper;
 
-	public void onPrepared(){};
+	public void onPrepared(){}
+	public void onCalled(){}
+	public void onError(Throwable e){
+		mMessageHelper.appendLine("Error!!!" + e.getMessage());
+		e.printStackTrace();
+	}
 
 	public ResultMessageHelper getMessageHelperWrapper(ResultMessageHelper messageHelper){
 		return null;
@@ -50,7 +58,13 @@ public abstract class AbstractDisplayUnit implements Runnable{
 
 	@Override
 	public void run() {
-		callUnit();
+		try {
+			onPrepared();
+			callUnit();
+			onCalled();
+		}catch (Throwable e){
+			onError(e);
+		}
 	}
 
 }

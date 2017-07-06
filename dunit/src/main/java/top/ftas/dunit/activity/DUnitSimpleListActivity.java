@@ -274,7 +274,6 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 			ResultMessageHelper newMessageHelper = displayUnit.getMessageHelperWrapper(messageHelper);
 			if (newMessageHelper != null) messageHelper = newMessageHelper;
 			displayUnit.setMessageHelper(messageHelper);
-			displayUnit.onPrepared();
 			callDisplayUnit(displayUnit, (DUnitModel) unitModel);
 		}catch (Exception e){
 			log(e);
