@@ -204,6 +204,11 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 		}
 
 		@Override
+		public void printLine(String resultMessage) {
+			print(resultMessage + "\n");
+		}
+
+		@Override
 		public void append(final String resultMessage) {
 			DUnitThreadManager.getInstance().postMain(new Runnable() {
 				@Override
@@ -213,6 +218,27 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 					TextView textView = mTextViewWeakReference.get();
 					String msg = textView.getText() + resultMessage;
 					textView.setText(msg);
+				}
+			});
+		}
+
+		@Override
+		public void appendLine(String resultMessage) {
+			append(resultMessage + "\n");
+		}
+
+		@Override
+		public void clean() {
+			print("");
+		}
+
+		@Override
+		public void hiddenAndClean() {
+			DUnitThreadManager.getInstance().postMain(new Runnable() {
+				@Override
+				public void run() {
+					mViewWeakReference.get().setVisibility(View.GONE);
+					mTextViewWeakReference.get().setText("");
 				}
 			});
 		}
@@ -244,7 +270,11 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 			AbstractDisplayUnit displayUnit = (AbstractDisplayUnit) unitClass.newInstance();
 			displayUnit.setContext(DUnitSimpleListActivity.this.getApplicationContext());
 			displayUnit.setActivity(DUnitSimpleListActivity.this);
-			displayUnit.setMessageHelper(new SimpleResultMessageHelper((View) v.getTag()));
+			ResultMessageHelper messageHelper = new SimpleResultMessageHelper((View) v.getTag());
+			ResultMessageHelper newMessageHelper = displayUnit.getMessageHelperWrapper(messageHelper);
+			if (newMessageHelper != null) messageHelper = newMessageHelper;
+			displayUnit.setMessageHelper(messageHelper);
+			displayUnit.onPrepared();
 			callDisplayUnit(displayUnit, (DUnitModel) unitModel);
 		}catch (Exception e){
 			log(e);
@@ -254,7 +284,6 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 	private void callDisplayUnit(final AbstractDisplayUnit displayUnit, DUnitModel unitModel) {
 		switch (unitModel.getThreadMode()){
 			case CURRENT_THREAD:
-				DUnitThreadManager.getInstance().postMain(displayUnit);
 				displayUnit.callUnit();
 				break;
 			case MAIN:

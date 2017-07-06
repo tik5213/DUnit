@@ -6,7 +6,11 @@ package top.ftas.dunit.core;
 
 public interface ResultMessageHelper {
 	void print(String resultMessage);
+	void printLine(String resultMessage);
 	void append(String resultMessage);
+	void appendLine(String resultMessage);
+	void clean();
 	void hidden();
+	void hiddenAndClean();
 	void show();
 }

@@ -34,7 +34,7 @@ dependencies {
     try {
         compile project(':dunit-library')
     } catch(Exception ex) {
-        compile 'top.ftas:dunit-library:0.1.5'
+        compile 'top.ftas:dunit-library:0.1.6'
     }
     testCompile 'junit:junit:4.12'
 }
@@ -43,7 +43,7 @@ publish {
     userOrg = 'tik'
     groupId = 'top.ftas'
     artifactId = 'dunit'
-    publishVersion = '0.1.5'
+    publishVersion = '0.1.6'
     desc = 'DUnit is used to test or display functions or components to others.'
     website = 'https://github.com/tik5213/DUnit'
 }

@@ -16,6 +16,12 @@ public abstract class AbstractDisplayUnit implements Runnable{
 	protected Context mContext;
 	protected ResultMessageHelper mMessageHelper;
 
+	public void onPrepared(){};
+
+	public ResultMessageHelper getMessageHelperWrapper(ResultMessageHelper messageHelper){
+		return null;
+	}
+
 	public ResultMessageHelper getMessageHelper() {
 		return mMessageHelper;
 	}
