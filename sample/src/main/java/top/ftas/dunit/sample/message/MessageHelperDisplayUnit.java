@@ -1,13 +1,16 @@
-package top.ftas.dunit.sample.test.message;
+package top.ftas.dunit.sample.message;
 
+import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.core.AbstractDisplayUnit;
 import top.ftas.dunit.core.AbstractResultMessageHelperWrapper;
 import top.ftas.dunit.core.ResultMessageHelper;
+import top.ftas.dunit.sample.AllGroup;
 
 /**
  * Created by tik on 17/7/6.
  */
 
+@DUnit(group = AllGroup.MessageHelperGroup.class,name = "单独信息加工")
 public class MessageHelperDisplayUnit extends AbstractDisplayUnit{
 
 	@Override

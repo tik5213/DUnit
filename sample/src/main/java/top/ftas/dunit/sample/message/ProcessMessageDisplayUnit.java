@@ -1,14 +1,17 @@
-package top.ftas.dunit.sample.test.message;
+package top.ftas.dunit.sample.message;
 
+import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.core.AbstractDisplayUnit;
 import top.ftas.dunit.core.AbstractResultMessageHelperWrapper;
 import top.ftas.dunit.core.ResultMessageHelper;
+import top.ftas.dunit.sample.AllGroup;
 
 /**
  * Created by tik on 17/7/6.
  */
 
-public class MessageHelperDisplayUnit2 extends AbstractDisplayUnit{
+@DUnit(group = AllGroup.MessageHelperGroup.class,name = "使用processMessage方法")
+public class ProcessMessageDisplayUnit extends AbstractDisplayUnit{
 
 	@Override
 	public ResultMessageHelper getMessageHelperWrapper(ResultMessageHelper messageHelper) {

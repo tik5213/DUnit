@@ -1,4 +1,4 @@
-package top.ftas.dunit.sample.test.simple;
+package top.ftas.dunit.sample.other;
 
 /**
  * Created by tik on 17/6/28.

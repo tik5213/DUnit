@@ -1,14 +1,15 @@
-package top.ftas.dunit.sample.test.simple;
+package top.ftas.dunit.sample.other;
 
 import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.core.AbstractDisplayUnit;
+import top.ftas.dunit.sample.AllGroup;
 import top.ftas.dunit.util.LogUtil;
-import top.ftas.dunit.util.ThreadModel;
 
 /**
  * Created by tik on 17/6/28.
  */
 
+@DUnit(group = AllGroup.OtherDisplayGroup.class)
 public class TestInnerClassDisplayUnit extends AbstractDisplayUnit {
 
 	public void toastCurrentThread(){

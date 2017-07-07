@@ -1,7 +1,8 @@
-package top.ftas.dunit.sample.test.simple;
+package top.ftas.dunit.sample.thread;
 
 import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.core.AbstractDisplayUnit;
+import top.ftas.dunit.sample.AllGroup;
 import top.ftas.dunit.util.LogUtil;
 import top.ftas.dunit.util.ThreadModel;
 
@@ -9,10 +10,10 @@ import top.ftas.dunit.util.ThreadModel;
  * Created by tik on 17/6/27.
  */
 
+@DUnit(group = AllGroup.ThreadDispayGroup.class)
 public class DefaultDisplayUnit extends AbstractDisplayUnit{
 	@Override
 	public void callUnit() {
-		Thread unitThread = Thread.currentThread();
-		LogUtil.toast(mActivity,"默认值效果展示。DisplayUnit所在线程：" + unitThread);
+		mMessageHelper.appendLine("当前线程：" + Thread.currentThread());
 	}
 }

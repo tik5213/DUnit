@@ -1,9 +1,10 @@
-package top.ftas.dunit.sample.test.simple;
+package top.ftas.dunit.sample.thread;
 
 import android.widget.Toast;
 
 import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.core.AbstractDisplayUnit;
+import top.ftas.dunit.sample.AllGroup;
 import top.ftas.dunit.util.LogUtil;
 import top.ftas.dunit.util.ThreadModel;
 
@@ -15,8 +16,9 @@ import static android.R.attr.priority;
 
 @DUnit(
 		threadMode = ThreadModel.IO,
-		priority = 100,
-		name = "打印一个中文版的你好"
+		priority = PrioritySet.SimpleIODisplayUnit,
+		name = "IO线程运行",
+		group = AllGroup.ThreadDispayGroup.class
 )
 public class SimpleIODisplayUnit extends AbstractDisplayUnit{
 	@Override
