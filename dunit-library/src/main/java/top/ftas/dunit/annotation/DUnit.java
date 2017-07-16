@@ -11,6 +11,7 @@ import top.ftas.dunit.group.DUnitRootGroup;
 import top.ftas.dunit.util.DUnitConstant;
 import top.ftas.dunit.util.ThreadModel;
 
+import static top.ftas.dunit.util.DUnitConstant.Sys.DEFAULT_VALUE_STRING;
 import static top.ftas.dunit.util.DUnitConstant.Sys.DEFAULT_VALUE_THREAD_MODEL;
 
 
@@ -20,7 +21,7 @@ import static top.ftas.dunit.util.DUnitConstant.Sys.DEFAULT_VALUE_THREAD_MODEL;
  * Inherited、Retention CLASS以上、Target TYPE三者结合方能实现注解的继承
  */
 
-@Inherited //允许接口继承
+@Inherited //允许继承
 @Retention(RetentionPolicy.CLASS) //注解保留到类文件中
 @Target(ElementType.TYPE)  //类类型的注解
 public @interface DUnit{
@@ -28,5 +29,6 @@ public @interface DUnit{
 	String name() default DUnitConstant.Sys.DEFAULT_VALUE_STRING;
 	int priority() default DUnitConstant.Sys.DEFAULT_VALUE_INT;
 	int threadMode() default DEFAULT_VALUE_THREAD_MODEL;
+	String unitType() default DEFAULT_VALUE_STRING;
 	Class<? extends DUnitGroupInterface> group() default DUnitConstant.Sys.DEFAULT_VALUE_GROUP.class;
 }

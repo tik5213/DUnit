@@ -1,9 +1,7 @@
 package top.ftas.dunit.compiler;
 
-import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.squareup.javapoet.AnnotationSpec;
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 
@@ -13,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
 
 import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.group.DUnitRootGroup;
@@ -23,8 +20,6 @@ import top.ftas.dunit.model.DUnitModel;
 import top.ftas.dunit.util.DUnitConstant;
 import top.ftas.dunit.util.GenericTypesUtil;
 import top.ftas.dunit.util.ModelValueUtil;
-
-import static com.squareup.javapoet.ClassName.bestGuess;
 
 /**
  * Created by tik on 17/7/2.
@@ -272,6 +267,11 @@ public class InitMethodUtil {
 				builder.addStatement("unitModel.setName(unitGroupClass.getSimpleName())");
 				//}
 				builder.addStatement("}");
+
+				////UnitType
+				builder.addStatement("//UnitType");
+				//ModelValueUtil.setUnitUnitTypeDefaultValue(unitModel);
+				builder.addStatement("$T.setUnitUnitTypeDefaultValue(unitModel)",ModelValueUtil.class);
 
 				////ThreadModel
 				builder.addStatement("//ThreadModel");

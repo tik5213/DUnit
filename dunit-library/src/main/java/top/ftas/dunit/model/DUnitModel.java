@@ -8,6 +8,15 @@ import top.ftas.dunit.util.ThreadModel;
 
 public class DUnitModel extends DUnitBaseModel{
 	private int threadMode;
+	private String unitType;
+
+	public String getUnitType() {
+		return unitType;
+	}
+
+	public void setUnitType(String unitType) {
+		this.unitType = unitType;
+	}
 
 	public int getThreadMode() {
 		return threadMode;

@@ -1,8 +1,5 @@
 package top.ftas.dunit.compiler;
 
-import com.google.common.base.Strings;
-//import com.sun.tools.javac.code.Type;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,6 +50,9 @@ public class DUnitModelUtil {
 		if (dUnit.threadMode() != DUnitConstant.Sys.DEFAULT_VALUE_THREAD_MODEL){
 			unitModel.setThreadMode(dUnit.threadMode());
 		}
+		if (!DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(dUnit.unitType())){
+			unitModel.setUnitType(dUnit.unitType());
+		}
 		if (dUnit.priority() != DUnitConstant.Sys.DEFAULT_VALUE_INT){
 			unitModel.setPriority(dUnit.priority());
 		}
@@ -93,6 +93,9 @@ public class DUnitModelUtil {
 		if (dUnit.threadMode() != DUnitConstant.Sys.DEFAULT_VALUE_THREAD_MODEL){
 			unitModel.setThreadMode(dUnit.threadMode());
 		}
+		if (!DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(dUnit.unitType())){
+			unitModel.setUnitType(dUnit.unitType());
+		}
 		if (dUnit.priority() != DUnitConstant.Sys.DEFAULT_VALUE_INT){
 			unitModel.setPriority(dUnit.priority());
 		}
@@ -132,6 +135,7 @@ public class DUnitModelUtil {
 		unitModel.setName(DUnitConstant.Sys.DEFAULT_VALUE_STRING);
 		unitModel.setPriority(DUnitConstant.Sys.DEFAULT_VALUE_INT);
 		unitModel.setGroupClassName(DUnitConstant.Sys.DEFAULT_VALUE_GROUP_NAME);
+		unitModel.setUnitType(DUnitConstant.Sys.DEFAULT_VALUE_STRING);
 		return unitModel;
 	}
 

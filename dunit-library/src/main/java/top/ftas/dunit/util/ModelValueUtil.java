@@ -61,6 +61,12 @@ public class ModelValueUtil {
 		}
 	}
 
+	public static void setUnitUnitTypeDefaultValue(DUnitModel dUnitModel){
+		if (DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(dUnitModel.getUnitType())){
+			dUnitModel.setUnitType(DUnitConstant.UnitType.AUTO);
+		}
+	}
+
 	public static Class<? extends DUnitGroupInterface> getUnitGroup(DUnitBaseModel unitModel){
 		try {
 			String groupClassName = unitModel.getGroupClassName();

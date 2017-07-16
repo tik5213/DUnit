@@ -29,12 +29,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
-    //Google用于简化编码的核心工具类库
-    compile 'com.google.guava:guava:19.0'
     try {
         compile project(':dunit-library')
     } catch(Exception ex) {
-        compile 'top.ftas:dunit-library:0.2'
+        compile 'top.ftas:dunit-library:0.21'
     }
     testCompile 'junit:junit:4.12'
 }
@@ -43,7 +41,7 @@ publish {
     userOrg = 'tik'
     groupId = 'top.ftas'
     artifactId = 'dunit'
-    publishVersion = '0.2'
+    publishVersion = "$rootProject.publishVersion"
     desc = 'DUnit is used to test or display functions or components to others.'
     website = 'https://github.com/tik5213/DUnit'
 }

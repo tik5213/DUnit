@@ -31,5 +31,12 @@ public class DUnitConstant {
 		public interface DEFAULT_VALUE_GROUP extends DUnitGroupInterface{}
 		public static final String DEFAULT_VALUE_GROUP_NAME = DEFAULT_VALUE_GROUP.class.getName();
 		public static final int DEFAULT_VALUE_THREAD_MODEL = -9999;
+
+		//KEY_FRAGMENT_CLASS
+		public static final String KEY_FRAGMENT_CLASS = "KEY_FRAGMENT_CLASS";
+	}
+	public static class UnitType{
+		public static final String AUTO = "AUTO";
+		public static final String NO_AUTO = "NO_AUTO";
 	}
 }

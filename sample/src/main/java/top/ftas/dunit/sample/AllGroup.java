@@ -14,6 +14,8 @@ public class AllGroup {
 	public static class CallBackGroup extends DUnitRootGroup{}
 	@DUnitGroup(value = "装饰MessageHelper")
 	public static class MessageHelperGroup extends DUnitRootGroup{}
+	@DUnitGroup(value = "特殊类演示")
+	public static class AutoGroup extends DUnitRootGroup{}
 	@DUnitGroup(value = "嵌套演示")
 	public static class OtherDisplayGroup extends DUnitRootGroup{}
 }

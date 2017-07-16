@@ -8,12 +8,10 @@ dependencies {
     try {
         compile project(':dunit-library')
     } catch(Exception ex) {
-        compile 'top.ftas:dunit-library:0.2'
+        compile 'top.ftas:dunit-library:0.21'
     }
     //用于自动生成java源代码的类库
     compile 'com.squareup:javapoet:1.9.0'
-    //Google用于简化编码的核心工具类库
-    compile 'com.google.guava:guava:19.0'
     //google提供的一个注册处理器的类库
     compile 'com.google.auto.service:auto-service:1.0-rc2'
 
@@ -26,7 +24,7 @@ publish {
     userOrg = 'tik'
     groupId = 'top.ftas'
     artifactId = 'dunit-compiler'
-    publishVersion = '0.2'
+    publishVersion = "$rootProject.publishVersion"
     desc = 'DUnit is used to test or display functions or components to others.'
     website = 'https://github.com/tik5213/DUnit'
 }

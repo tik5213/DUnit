@@ -34,7 +34,8 @@ dependencies {
 
 Make sure the line `apply plugin ...` is placed somewhere at the top of the file.
 
-# Usage
+
+# Usage1
 
 1. Modify AndroidManifest.xml:
 
@@ -45,6 +46,30 @@ Make sure the line `apply plugin ...` is placed somewhere at the top of the file
 			<category android:name="android.intent.category.LAUNCHER"/>
 		</intent-filter>
 	</activity>
+	<activity android:name="top.ftas.dunit.activity.SingleFragmentActivity" />
+	<activity android:name="top.ftas.dunit.activity.SingleSupportFragmentActivity" />
+	```
+
+2. Add annotations to existing activities：
+	
+	```java
+	@DUnit
+	public class BaseActivity extends Activity{ /* Do something */ } }
+	```
+
+# Usage2
+
+1. Modify AndroidManifest.xml:
+
+	```java
+	<activity android:name="top.ftas.dunit.activity.DUnitSimpleListActivity">
+		<intent-filter>
+			<action android:name="android.intent.action.MAIN"/>
+			<category android:name="android.intent.category.LAUNCHER"/>
+		</intent-filter>
+	</activity>
+	<activity android:name="top.ftas.dunit.activity.SingleFragmentActivity" />
+	<activity android:name="top.ftas.dunit.activity.SingleSupportFragmentActivity" />
 	```
 
 2. Define groups:
@@ -66,7 +91,6 @@ Make sure the line `apply plugin ...` is placed somewhere at the top of the file
 		public void callUnit() { /* Do something */ }
 	}
 	```
-
 
  [1]: img/small/01.png
  [2]: img/small/02.png

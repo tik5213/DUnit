@@ -31,3 +31,7 @@ task clean(type: Delete) {
 //tasks.getByPath(":dunit-library:bintrayUpload").enabled = false
 //tasks.getByPath(":dunit-compiler:bintrayUpload").enabled = false
 //tasks.getByPath(":dunit:bintrayUpload").enabled = false
+
+ext {
+    publishVersion = '0.21'
+}

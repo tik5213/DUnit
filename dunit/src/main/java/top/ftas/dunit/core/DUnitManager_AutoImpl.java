@@ -1,14 +1,13 @@
 package top.ftas.dunit.core;
 
-import com.google.common.base.Strings;
 import com.google.gson.Gson;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.xml.datatype.DatatypeConstants;
 
+import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.group.DUnitRootGroup;
 import top.ftas.dunit.model.DUnitBaseModel;
@@ -18,8 +17,6 @@ import top.ftas.dunit.util.DUnitConstant;
 import top.ftas.dunit.util.GenericTypesUtil;
 import top.ftas.dunit.util.ModelValueUtil;
 import top.ftas.dunit.util.ThreadModel;
-
-import static top.ftas.dunit.util.DUnitConstant.Sys.DEFAULT_VALUE_GROUP_NAME;
 
 /**
  * Created by tik on 17/6/28.
@@ -58,6 +55,9 @@ final class DUnitManager_AutoImpl extends DUnitManager{
 				if (DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(unitModel.getName())){
 					unitModel.setName(unitGroupClass.getSimpleName());
 				}
+
+				//UnitType
+				ModelValueUtil.setUnitUnitTypeDefaultValue(unitModel);
 
 				//ThreadModel
 				ModelValueUtil.setUnitThreadModelDefaultValue(unitModel);

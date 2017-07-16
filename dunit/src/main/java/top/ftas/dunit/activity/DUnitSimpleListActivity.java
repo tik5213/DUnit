@@ -28,8 +28,10 @@ import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
 import top.ftas.dunit.model.ModelType;
 import top.ftas.dunit.thread.DUnitThreadManager;
+import top.ftas.dunit.util.DUnitConstant;
 import top.ftas.dunit.util.LogUtil;
 
+import static top.ftas.dunit.util.DUnitConstant.Sys.KEY_FRAGMENT_CLASS;
 import static top.ftas.dunit.util.ThreadModel.CURRENT_THREAD;
 import static top.ftas.dunit.util.ThreadModel.IO;
 import static top.ftas.dunit.util.ThreadModel.MAIN;
@@ -39,7 +41,7 @@ import static top.ftas.dunit.util.ThreadModel.NEW_THREAD;
  * Created by tik on 17/6/28.
  */
 
-public class DUnitSimpleListActivity extends AppCompatActivity{
+public class DUnitSimpleListActivity extends AppCompatActivity {
 	public static final String KEY_GROUP = "KEY_GROUP";
 	private LinearLayout mMainLinearLayout;
 	private Activity mActivity;
@@ -157,7 +159,7 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 			public void onClick(View v) {
 				switch (unitModel.getModelType()){
 					case MODEL_TYPE_UNIT:
-						doUnit(unitModel,v);
+						doUnit((DUnitModel) unitModel,v);
 						break;
 					case MODEL_TYPE_GROUP:
 						startNextPage(unitModel);
@@ -264,9 +266,24 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 		}
 	}
 
-	private void doUnit(DUnitBaseModel unitModel, View v) {
+	private void doUnit(DUnitModel unitModel, View v) {
 		try {
 			Class<?> unitClass = Class.forName(unitModel.getOriginalClassName());
+			if (unitModel.getUnitType().equals(DUnitConstant.UnitType.AUTO)){
+				if (Activity.class.isAssignableFrom(unitClass)){
+					doActivityUnit(unitClass,unitModel,v);
+					return;
+				}
+				if (android.app.Fragment.class.isAssignableFrom(unitClass)){
+					doFragmentUnit(unitClass,unitModel,v);
+					return;
+				}
+
+				if (android.support.v4.app.Fragment.class.isAssignableFrom(unitClass)){
+					doSupportFragmentUnit(unitClass,unitModel,v);
+					return;
+				}
+			}
 			AbstractDisplayUnit displayUnit = (AbstractDisplayUnit) unitClass.newInstance();
 			displayUnit.setContext(DUnitSimpleListActivity.this.getApplicationContext());
 			displayUnit.setActivity(DUnitSimpleListActivity.this);
@@ -274,10 +291,28 @@ public class DUnitSimpleListActivity extends AppCompatActivity{
 			ResultMessageHelper newMessageHelper = displayUnit.getMessageHelperWrapper(messageHelper);
 			if (newMessageHelper != null) messageHelper = newMessageHelper;
 			displayUnit.setMessageHelper(messageHelper);
-			callDisplayUnit(displayUnit, (DUnitModel) unitModel);
+			callDisplayUnit(displayUnit, unitModel);
 		}catch (Exception e){
 			log(e);
 		}
+	}
+
+	private void doSupportFragmentUnit(Class<?> unitClass, DUnitBaseModel unitModel, View v) {
+		Intent intent = new Intent(this,SingleSupportFragmentActivity.class);
+		intent.putExtra(KEY_FRAGMENT_CLASS,unitClass);
+		startActivity(intent);
+	}
+
+	private void doFragmentUnit(Class<?> unitClass, DUnitBaseModel unitModel, View v) {
+		Intent intent = new Intent(this,SingleFragmentActivity.class);
+		intent.putExtra(KEY_FRAGMENT_CLASS,unitClass);
+		startActivity(intent);
+
+	}
+
+	private void doActivityUnit(Class<?> unitClass, DUnitBaseModel unitModel, View v) {
+		Intent intent = new Intent(this,unitClass);
+		startActivity(intent);
 	}
 
 	private void callDisplayUnit(final AbstractDisplayUnit displayUnit, DUnitModel unitModel) {
