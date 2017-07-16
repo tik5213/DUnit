@@ -33,5 +33,5 @@ task clean(type: Delete) {
 //tasks.getByPath(":dunit:bintrayUpload").enabled = false
 
 ext {
-    publishVersion = '0.21'
+    publishVersion = '1.0'
 }

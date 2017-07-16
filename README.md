@@ -27,8 +27,8 @@ android {
 }
 
 dependencies {
-  compile 'top.ftas:dunit:0.2'
-  apt 'top.ftas:dunit-compiler:0.2'
+  compile 'top.ftas:dunit:1.0'
+  apt 'top.ftas:dunit-compiler:1.0'
 }
 ```
 

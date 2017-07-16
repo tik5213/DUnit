@@ -30,7 +30,7 @@ public class SingleSupportFragmentActivity<T extends Fragment> extends AppCompat
 	protected void onFragmentHasCreated(T fragment,Bundle savedInstanceState){}
 
 	protected int getLayoutResId(){
-		return R.layout.activity_fragment;
+		return R.layout.activity_fragment_dunit;
 	}
 
 	@Override

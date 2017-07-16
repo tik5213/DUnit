@@ -30,7 +30,7 @@ public class SingleFragmentActivity<T extends Fragment> extends Activity{
 	protected void onFragmentHasCreated(T fragment,Bundle savedInstanceState){}
 
 	protected int getLayoutResId(){
-		return R.layout.activity_fragment;
+		return R.layout.activity_fragment_dunit;
 	}
 
 	@Override
