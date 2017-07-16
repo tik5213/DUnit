@@ -54,7 +54,7 @@ Make sure the line `apply plugin ...` is placed somewhere at the top of the file
 	
 	```java
 	@DUnit
-	public class BaseActivity extends Activity{ /* Do something */ } }
+	public class BaseActivity extends Activity{ /* Do something */ }
 	```
 
 # Usage2
