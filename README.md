@@ -25,6 +25,7 @@ dependencies {
 	</activity>
 	<activity android:name="top.ftas.dunit.activity.SingleFragmentActivity" />
 	<activity android:name="top.ftas.dunit.activity.SingleSupportFragmentActivity" />
+	<activity android:name=".BaseActivity" />
 	```
 
 2. Add annotations to existing activities：
