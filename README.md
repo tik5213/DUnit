@@ -4,36 +4,13 @@ DUnit is used to test or display functions or components to others.
 ![img1][1] ![img2][2] ![img3][3] ![img4][4]
 
 # Download
-Add this to you project-level `build.gradle`:
 
 ```groovy
-buildscript {
-  repositories {
-    mavenCentral()
-   }
-  dependencies {
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-  }
-}
-```
-
-Add this to your module-level `build.gradle`:
-
-```groovy
-apply plugin: 'com.neenbedankt.android-apt'
-
-android {
-  ...
-}
-
 dependencies {
-  compile 'top.ftas:dunit:1.0'
-  apt 'top.ftas:dunit-compiler:1.0'
+  compile 'top.ftas:dunit:1.1'
+  annotationProcessor 'top.ftas:dunit-compiler:1.1'
 }
 ```
-
-Make sure the line `apply plugin ...` is placed somewhere at the top of the file.
-
 
 # Usage1
 
