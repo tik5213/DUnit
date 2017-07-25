@@ -3,11 +3,9 @@ package top.ftas.dunit.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +28,9 @@ import top.ftas.dunit.model.ModelType;
 import top.ftas.dunit.thread.DUnitThreadManager;
 import top.ftas.dunit.util.DUnitConstant;
 import top.ftas.dunit.util.LogUtil;
+import top.ftas.dunit.util.StatusBarUtils;
+import top.ftas.dunit.util.TypefaceUtil;
+import top.ftas.dunit.widget.DUnitSupportActionBar;
 
 import static top.ftas.dunit.util.DUnitConstant.Sys.KEY_FRAGMENT_CLASS;
 import static top.ftas.dunit.util.ThreadModel.CURRENT_THREAD;
@@ -41,17 +42,20 @@ import static top.ftas.dunit.util.ThreadModel.NEW_THREAD;
  * Created by tik on 17/6/28.
  */
 
-public class DUnitSimpleListActivity extends AppCompatActivity {
+public class DUnitSimpleListActivity extends Activity implements DUnitSupportActionBar.OnSupportActionBarClickListener {
 	public static final String KEY_GROUP = "KEY_GROUP";
 	private LinearLayout mMainLinearLayout;
 	private Activity mActivity;
 	private Class<? extends DUnitGroupInterface> mCurrentGroup;
+	private DUnitSupportActionBar mSupportActionBar;
 
 	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
+		TypefaceUtil.getIconTypeFace(this);
+		StatusBarUtils.setWindowStatusBarColor(this,R.color.colorPrimaryDark);
 		super.onCreate(savedInstanceState);
-		ArrayList<DUnitBaseModel> unitModels = null;
-		setContentView(R.layout.activity_empty_simplelist_dunit);
+		ArrayList<DUnitBaseModel> unitModels;
 		try {
 			Class<? extends DUnitGroupInterface> group = getCurrentGroup();
 			DUnitManager dUnitManager = DUnitManager.getInstance();
@@ -61,14 +65,21 @@ public class DUnitSimpleListActivity extends AppCompatActivity {
 			return;
 		}
 
-		showHomeButton();
-		setActionBarTitle();
 		if (unitModels == null || unitModels.isEmpty()){
 			setContentView(R.layout.activity_empty_simplelist_dunit);
+			mSupportActionBar = new DUnitSupportActionBar(findViewById(R.id.action_bar_ll));
+			mSupportActionBar.setOnSupportActionBarClickListener(this);
+			showHomeButton();
+			setActionBarTitle();
 			return;
 		}
 
 		setContentView(R.layout.activity_simplelist_dunit);
+		mSupportActionBar = new DUnitSupportActionBar(findViewById(R.id.action_bar_ll));
+		mSupportActionBar.setOnSupportActionBarClickListener(this);
+		showHomeButton();
+		showHomeButton();
+		setActionBarTitle();
 
 		mActivity = this;
 		initMainView();
@@ -118,6 +129,10 @@ public class DUnitSimpleListActivity extends AppCompatActivity {
 				return;
 			}
 		}
+	}
+
+	private DUnitSupportActionBar getSupportActionBar(){
+		return mSupportActionBar;
 	}
 
 	private Class<? extends DUnitGroupInterface> getCurrentGroup() {
@@ -181,6 +196,14 @@ public class DUnitSimpleListActivity extends AppCompatActivity {
 		intent.putExtra(KEY_GROUP,group);
 		intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onSupportActionBarClick(View view) {
+		int id = view.getId();
+		if (id == R.id.action_bar_home){
+			finish();
+		}
 	}
 
 	private static class SimpleResultMessageHelper implements ResultMessageHelper{

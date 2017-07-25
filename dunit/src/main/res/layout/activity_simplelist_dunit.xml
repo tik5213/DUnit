@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    >
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/main_ll"
-        android:background="@android:color/holo_green_light"
-        android:gravity="center"
+    <include layout="@layout/common_actionbar"/>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="20dp"
-        android:orientation="vertical">
+        android:fillViewport="true"
+        >
 
-    </LinearLayout>
-</ScrollView>
+        <LinearLayout
+            android:id="@+id/main_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_green_light"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+

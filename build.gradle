@@ -6,9 +6,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
-        //Annotation Processor Tool插件
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-
         //bintray
         classpath 'com.novoda:bintray-release:0.3.4'
 
@@ -33,5 +30,5 @@ task clean(type: Delete) {
 //tasks.getByPath(":dunit:bintrayUpload").enabled = false
 
 ext {
-    publishVersion = '1.0'
+    publishVersion = '1.1'
 }
