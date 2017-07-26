@@ -4,6 +4,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_bg_simplelist_dunit"
         android:layout_width="300dp"
+        android:textColor="@color/dunitColorButtonText"
         android:textAllCaps="false"
         android:layout_height="50dp">
 

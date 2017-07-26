@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!-- dunit -->
+    <color name="dunitColorPrimary">#151910</color>
+    <color name="dunitColorPrimaryDark">#0d0311</color>
+    <color name="dunitColorContent">#59564c</color>
+    <color name="dunitColorActionBarHome">@android:color/holo_blue_light</color>
+    <color name="dunitColorActionBarTitle">@android:color/holo_blue_light</color>
+    <color name="dunitColorButtonText">#FFFFFF</color>
+    <color name="dunitColorButtonPressedStart">#300b3f</color>
+    <color name="dunitColorButtonPressedEnd">#e3cef6</color>
+    <color name="dunitColorButtonPressedStroke">@color/dunitColorButtonPressedStart</color>
+    <color name="dunitColorButtonNormalStart">#00000000</color>
+    <color name="dunitColorButtonNormalEnd">#00000000</color>
+    <color name="dunitColorButtonNormalStroke">@android:color/holo_blue_light</color>
 </resources>

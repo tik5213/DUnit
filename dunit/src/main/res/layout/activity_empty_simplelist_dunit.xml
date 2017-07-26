@@ -6,7 +6,7 @@
     android:orientation="vertical">
     <include layout="@layout/common_actionbar" />
     <LinearLayout
-        android:background="@android:color/holo_green_light"
+        android:background="@color/dunitColorContent"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -3,13 +3,13 @@
               android:orientation="horizontal"
               android:id="@+id/action_bar_ll"
               android:gravity="left|center_vertical"
-              android:background="@color/colorPrimary"
+              android:background="@color/dunitColorPrimary"
               android:layout_width="match_parent"
               android:layout_height="48dp">
     <top.ftas.dunit.widget.DUnitIconView
         android:gravity="center"
         android:id="@+id/action_bar_home"
-        android:textColor="#fff"
+        android:textColor="@color/dunitColorActionBarHome"
         android:textSize="24dp"
         android:visibility="gone"
         android:layout_marginLeft="10dp"
@@ -19,7 +19,7 @@
     <TextView
         android:text="标题"
         android:textSize="18dp"
-        android:textColor="#fff"
+        android:textColor="@color/dunitColorActionBarTitle"
         android:id="@+id/action_bar_title"
         android:layout_marginLeft="20dp"
         android:layout_weight="1"

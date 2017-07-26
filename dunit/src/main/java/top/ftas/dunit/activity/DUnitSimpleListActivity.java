@@ -2,6 +2,8 @@ package top.ftas.dunit.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,7 +55,7 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
 		TypefaceUtil.getIconTypeFace(this);
-		StatusBarUtils.setWindowStatusBarColor(this,R.color.colorPrimaryDark);
+		StatusBarUtils.setWindowStatusBarColor(this,R.color.dunitColorPrimaryDark);
 		super.onCreate(savedInstanceState);
 		ArrayList<DUnitBaseModel> unitModels;
 		try {
@@ -120,7 +122,17 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 	}
 
 	protected void setActionBarTitle(){
-		if (isRootPage()) return;
+		if (isRootPage()){
+			String pkgName = getPackageName();
+			try {
+				PackageInfo pkgInfo = getPackageManager().getPackageInfo(pkgName,0);
+				CharSequence appLabel = getPackageManager().getApplicationLabel(pkgInfo.applicationInfo);
+				getSupportActionBar().setTitle(appLabel.toString());
+			} catch (PackageManager.NameNotFoundException e) {
+				e.printStackTrace();
+			}
+			return;
+		}
 		Class<? extends DUnitGroupInterface> currentGroup = getCurrentGroup();
 		ArrayList<DUnitGroupModel> groupModels = DUnitManager.getInstance().getUnitGroupModels();
 		for (DUnitGroupModel groupModel: groupModels) {
