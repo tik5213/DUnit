@@ -6,8 +6,8 @@
     <color name="dunitColorActionBarHome">#FFFFFF</color>
     <color name="dunitColorActionBarTitle">#FFFFFF</color>
     <color name="dunitColorButtonText">#000000</color>
-    <color name="dunitColorButtonPressedStart">#4c4bc5</color>
-    <color name="dunitColorButtonPressedEnd">#e5d7e7</color>
+    <color name="dunitColorButtonPressedStart">#b5b9ff</color>
+    <color name="dunitColorButtonPressedEnd">#d4d8ff</color>
     <color name="dunitColorButtonPressedStroke">@color/dunitColorButtonPressedStart</color>
     <color name="dunitColorButtonNormalStart">#00000000</color>
     <color name="dunitColorButtonNormalEnd">#00000000</color>
