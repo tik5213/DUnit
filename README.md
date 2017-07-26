@@ -7,8 +7,8 @@ DUnit is used to test or display functions or components to others.
 
 ```groovy
 dependencies {
-  compile 'top.ftas:dunit:1.1'
-  annotationProcessor 'top.ftas:dunit-compiler:1.1'
+  compile 'top.ftas:dunit:1.2'
+  annotationProcessor 'top.ftas:dunit-compiler:1.2'
 }
 ```
 
