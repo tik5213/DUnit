@@ -1,4 +1,4 @@
-package top.ftas.dunit.core;
+package top.ftas.dunit.util;
 
 import com.google.gson.Gson;
 
@@ -11,9 +11,6 @@ import top.ftas.dunit.group.DUnitRootGroup;
 import top.ftas.dunit.model.DUnitBaseModel;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
-import top.ftas.dunit.util.DUnitConstant;
-import top.ftas.dunit.util.GenericTypesUtil;
-import top.ftas.dunit.util.ModelValueUtil;
 
 /**
  * Created by tik on 2018/3/26.

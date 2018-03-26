@@ -1,7 +1,5 @@
 package top.ftas.dunit.util;
 
-import android.util.Log;
-
 import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.group.DUnitRootGroup;
 import top.ftas.dunit.model.DUnitBaseModel;

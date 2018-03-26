@@ -21,6 +21,7 @@ import top.ftas.dunit.util.ThreadModel;
  * Created by tik on 17/6/28.
  */
 
+@Deprecated
 class DUnitManager_AutoImpl extends DUnitManager{
 
 	@Override

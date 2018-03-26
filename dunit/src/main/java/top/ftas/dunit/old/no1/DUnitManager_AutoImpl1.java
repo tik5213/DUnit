@@ -16,6 +16,7 @@ import top.ftas.dunit.util.DUnitConstant;
 import top.ftas.dunit.util.GenericTypesUtil;
 import top.ftas.dunit.util.ModelValueUtil;
 
+@Deprecated
 final class DUnitManager_AutoImpl1 extends DUnitManager {
     @Override
     protected HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels,

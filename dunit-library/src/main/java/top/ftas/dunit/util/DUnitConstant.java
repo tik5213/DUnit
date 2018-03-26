@@ -16,7 +16,7 @@ public class DUnitConstant {
 		public static final String DUNIT_MANAGER_CANONICAL_NAME = DUNIT_MANAGER_PKG + "." +  DUNIT_MANAGER_SIMPLE_NAME_;
 
 		//DUnitManager_AutoImpl
-		public static final String DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME = "DUnitManager_AutoImpl1";
+		public static final String DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME = "DUnitManager_AutoImpl2";
 		public static final String DUNIT_MANAGER_AUTO_IMPL_PKG = DUNIT_MANAGER_PKG;
 		public static final String DUNIT_MANAGER_AUTO_IMPL_CANONICAL_NAME = DUNIT_MANAGER_AUTO_IMPL_PKG + "." + DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME;
 
