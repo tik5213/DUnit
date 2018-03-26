@@ -41,6 +41,9 @@ public class SingleSupportFragmentActivity<T extends Fragment> extends AppCompat
 		Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentContainer);
 		if (fragment == null){
 			fragment = createFragment();
+			if (getIntent() != null && getIntent().getExtras() != null){
+				fragment.setArguments(getIntent().getExtras());
+			}
 			FragmentTransaction transaction = fragmentManager.beginTransaction();
 			transaction.add(R.id.fragmentContainer, fragment);
 			transaction.commit();

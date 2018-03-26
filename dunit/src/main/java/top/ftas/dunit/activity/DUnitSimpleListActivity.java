@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +26,7 @@ import top.ftas.dunit.core.DUnitManager;
 import top.ftas.dunit.core.ResultMessageHelper;
 import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.group.DUnitRootGroup;
+import top.ftas.dunit.gson.BundleTypeAdapterFactory;
 import top.ftas.dunit.model.DUnitBaseModel;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
@@ -50,6 +54,7 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 	private Activity mActivity;
 	private Class<? extends DUnitGroupInterface> mCurrentGroup;
 	private DUnitSupportActionBar mSupportActionBar;
+	private Gson mGson = new GsonBuilder().registerTypeAdapterFactory(new BundleTypeAdapterFactory()).create();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -335,19 +340,31 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 	private void doSupportFragmentUnit(Class<?> unitClass, DUnitBaseModel unitModel, View v) {
 		Intent intent = new Intent(this,SingleSupportFragmentActivity.class);
 		intent.putExtra(KEY_FRAGMENT_CLASS,unitClass);
+		intent.putExtras(getBundleFromDUnitModel(unitModel));
 		startActivity(intent);
 	}
 
 	private void doFragmentUnit(Class<?> unitClass, DUnitBaseModel unitModel, View v) {
 		Intent intent = new Intent(this,SingleFragmentActivity.class);
 		intent.putExtra(KEY_FRAGMENT_CLASS,unitClass);
+		intent.putExtras(getBundleFromDUnitModel(unitModel));
 		startActivity(intent);
-
 	}
 
 	private void doActivityUnit(Class<?> unitClass, DUnitBaseModel unitModel, View v) {
 		Intent intent = new Intent(this,unitClass);
+		intent.putExtras(getBundleFromDUnitModel(unitModel));
 		startActivity(intent);
+	}
+
+	private Bundle getBundleFromDUnitModel(DUnitBaseModel dUnitBaseModel){
+		if (dUnitBaseModel instanceof DUnitModel){
+			DUnitModel dUnitModel = (DUnitModel) dUnitBaseModel;
+			Bundle bundle = mGson.fromJson(dUnitModel.getParamJson(),Bundle.class);
+			return bundle;
+		}else {
+			return new Bundle();
+		}
 	}
 
 	private void callDisplayUnit(final AbstractDisplayUnit displayUnit, DUnitModel unitModel) {

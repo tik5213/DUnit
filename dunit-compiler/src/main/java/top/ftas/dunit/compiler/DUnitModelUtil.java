@@ -120,6 +120,11 @@ public class DUnitModelUtil {
 			unitModel.setName(name);
 		}
 
+		//paramJson
+		if (!DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(dUnit.paramJson())){
+		    unitModel.setParamJson(dUnit.paramJson());
+		}
+
 		//DUnitHidden
 		unitModel.setHidden(type.getAnnotation(DUnitHidden.class) != null);
 
@@ -133,6 +138,7 @@ public class DUnitModelUtil {
 		DUnitModel unitModel = new DUnitModel();
 		unitModel.setThreadMode(DUnitConstant.Sys.DEFAULT_VALUE_THREAD_MODEL);
 		unitModel.setName(DUnitConstant.Sys.DEFAULT_VALUE_STRING);
+		unitModel.setParamJson(DUnitConstant.Sys.DEFAULT_VALUE_STRING);
 		unitModel.setPriority(DUnitConstant.Sys.DEFAULT_VALUE_INT);
 		unitModel.setGroupClassName(DUnitConstant.Sys.DEFAULT_VALUE_GROUP_NAME);
 		unitModel.setUnitType(DUnitConstant.Sys.DEFAULT_VALUE_STRING);

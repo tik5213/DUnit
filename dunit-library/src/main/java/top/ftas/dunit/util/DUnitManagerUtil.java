@@ -33,6 +33,11 @@ public class DUnitManagerUtil {
                     unitModel.setName(unitGroupClass.getSimpleName());
                 }
 
+                //paramJson
+                if (DUnitConstant.Sys.DEFAULT_VALUE_STRING.equals(unitModel.getParamJson())){
+                    unitModel.setParamJson("{}");
+                }
+
                 //UnitType
                 ModelValueUtil.setUnitUnitTypeDefaultValue(unitModel);
 
