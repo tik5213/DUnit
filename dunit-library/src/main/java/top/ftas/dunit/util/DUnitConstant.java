@@ -3,7 +3,6 @@ package top.ftas.dunit.util;
 import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.annotation.DUnitGroup;
 import top.ftas.dunit.group.DUnitGroupInterface;
-import top.ftas.dunit.group.DUnitRootGroup;
 
 /**
  * Created by tik on 17/6/28.
@@ -27,10 +26,10 @@ public class DUnitConstant {
 
 		//DefaultValue
 		public static final int DEFAULT_VALUE_INT = -9999;
-		public static final String DEFAULT_VALUE_STRING = "DEFAULT_VALUE_STRING";
 		public interface DEFAULT_VALUE_GROUP extends DUnitGroupInterface{}
 		public static final String DEFAULT_VALUE_GROUP_NAME = DEFAULT_VALUE_GROUP.class.getName();
 		public static final int DEFAULT_VALUE_THREAD_MODEL = -9999;
+		public static final String DEFAULT_VALUE_STRING = "DEFAULT_VALUE_STRING";
 
 		//KEY_FRAGMENT_CLASS
 		public static final String KEY_FRAGMENT_CLASS = "KEY_FRAGMENT_CLASS";

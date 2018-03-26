@@ -1,7 +1,5 @@
 package top.ftas.dunit.model;
 
-import top.ftas.dunit.util.ThreadModel;
-
 /**
  * Created by tik on 17/6/28.
  */
@@ -9,6 +7,15 @@ import top.ftas.dunit.util.ThreadModel;
 public class DUnitModel extends DUnitBaseModel{
 	private int threadMode;
 	private String unitType;
+	private String paramJson;
+
+	public String getParamJson() {
+		return paramJson;
+	}
+
+	public void setParamJson(String paramJson) {
+		this.paramJson = paramJson;
+	}
 
 	public String getUnitType() {
 		return unitType;
