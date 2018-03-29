@@ -9,7 +9,6 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,7 +28,6 @@ import javax.lang.model.util.Types;
 
 import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.annotation.DUnitGroup;
-import top.ftas.dunit.annotation.DUnitHidden;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
 import top.ftas.dunit.util.DUnitConstant;
@@ -47,6 +45,8 @@ public class DUnitProcessor extends AbstractProcessor {
 	//模型工具类
 	private DUnitModelUtil mUnitModelUtil;
 
+	private String mAutoImplClassName;
+
 	@Override
 	/**
 	 * 被注解处理工具调用，参数ProcessingEnvironment 提供了Element，Filer，Messager等工具
@@ -57,6 +57,17 @@ public class DUnitProcessor extends AbstractProcessor {
 		mErrorReporter = new ErrorReporter(processingEnvironment);
 		mUnitModelUtil = new DUnitModelUtil(mErrorReporter, mTypes);
 		mErrorReporter.print("init success.");
+
+		String oldClassNameIntStr = System.getProperty("DUnitManager_AutoImpl_ClassNameInt");
+		int classNameInt = 1;
+		if (oldClassNameIntStr != null && !"".equals(oldClassNameIntStr)){
+		    classNameInt = Integer.valueOf(oldClassNameIntStr) + 1;
+		}
+		if (classNameInt > DUnitConstant.Sys.DUNIT_MANAGER_MAX_AUTO_IMPLE_INT){
+			throw new RuntimeException("DUnitManager_AutoImpl_ClassNameInt classNameInt大于" + DUnitConstant.Sys.DUNIT_MANAGER_MAX_AUTO_IMPLE_INT + " 过多的模块引用了 DUnit");
+		}
+		System.setProperty("DUnitManager_AutoImpl_ClassNameInt","" + classNameInt);
+		mAutoImplClassName = DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME + "_" + classNameInt;
 	}
 
 
@@ -176,11 +187,12 @@ public class DUnitProcessor extends AbstractProcessor {
 
 		MethodSpec methodSpec_createModelMap = InitMethodUtil.createMethodSpecBuilder_createModelMap().build();
 
+
 		try {
 			//声明类DUnitManager_AutoImpl1，并添加方法
 			ClassName typeName = ClassName.bestGuess(DUnitConstant.Sys.DUNIT_MANAGER_CANONICAL_NAME);
 			TypeSpec.Builder typeSpecBuild_DUnitManager_AutoImpl = TypeSpec
-					.classBuilder(DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME)
+					.classBuilder(mAutoImplClassName)
 					.addModifiers(Modifier.FINAL)
 					.addModifiers(Modifier.PUBLIC)
 					.superclass(typeName)

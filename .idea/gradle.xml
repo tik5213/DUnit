@@ -12,7 +12,7 @@
             <option value="$PROJECT_DIR$/dunit-compiler" />
             <option value="$PROJECT_DIR$/dunit-library" />
             <option value="$PROJECT_DIR$/sample" />
-            <option value="$PROJECT_DIR$/sample-simple" />
+            <option value="$PROJECT_DIR$/sample-test-library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

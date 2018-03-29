@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="darger2.test.dxy.cn.sample_test_library">
+
+    <application>
+        <activity android:name=".SampleTestLibraryActivity" />
+
+    </application>
+</manifest>

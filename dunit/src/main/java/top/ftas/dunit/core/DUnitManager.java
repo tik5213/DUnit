@@ -2,16 +2,17 @@ package top.ftas.dunit.core;
 
 import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.model.DUnitBaseModel;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
 import top.ftas.dunit.util.DUnitConstant;
+import top.ftas.dunit.util.DUnitManagerUtil;
 import top.ftas.dunit.util.LogUtil;
 
 /**
@@ -47,30 +48,55 @@ public abstract class DUnitManager {
 		if (sInstance == null) {
 			synchronized (DUnitManager.class) {
 				if (sInstance == null) {
-					try {
-						Class<?> clazz = Class.forName(DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_CANONICAL_NAME);
-						sInstance = (DUnitManager) clazz.newInstance();
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-						sInstance = new DUnitManager() {
-							@Override
-							protected ArrayList<DUnitModel> initUnitModels() {
-								return new ArrayList<>();
-							}
-
-							@Override
-							protected HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels) {
-								return new HashMap<>();
-							}
-						};
-					} catch (Exception e) {
-						e.printStackTrace();
-						throw new RuntimeException(e);
-					}
+                    sInstance = createDUnitManager();
 				}
 			}
 		}
 		return sInstance;
+	}
+
+	public static ArrayList<DUnitGroupModel>  sDUnitGroupModels = new ArrayList<>();
+	public static ArrayList<DUnitModel> sDUnitModels = new ArrayList<>();
+
+	private static DUnitManager createDUnitManager(){
+		HashSet<DUnitGroupModel> dUnitGroupModels = new HashSet<>();
+		HashSet<DUnitModel> dUnitModels = new HashSet<>();
+		for (int i = 1; i <= DUnitConstant.Sys.DUNIT_MANAGER_MAX_AUTO_IMPLE_INT; i++) {
+			try {
+				String autoImplClassName = DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_CANONICAL_NAME + "_" + i;
+				Class<?> clazz = Class.forName(autoImplClassName);
+				DUnitManager dUnitManager = (DUnitManager) clazz.newInstance();
+				ArrayList<DUnitGroupModel> dUnitGroupModelArrayList = dUnitManager.initUnitGroupModels();
+				dUnitGroupModels.addAll(dUnitGroupModelArrayList);
+
+				ArrayList<DUnitModel> dUnitModelArrayList = dUnitManager.initUnitModels();
+				dUnitModels.addAll(dUnitModelArrayList);
+			}catch (Throwable throwable){
+				throwable.printStackTrace();
+				throwable.printStackTrace();
+			}
+		}
+
+		sDUnitGroupModels.addAll(dUnitGroupModels);
+		sDUnitModels.addAll(dUnitModels);
+
+		return new DUnitManager() {
+			@Override
+			protected HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels) {
+				return DUnitManagerUtil.createModelMap(unitGroupModels,unitModels);
+			}
+
+			@Override
+			protected ArrayList<DUnitModel> initUnitModels() {
+			    return sDUnitModels;
+			}
+
+			@Override
+			protected ArrayList<DUnitGroupModel> initUnitGroupModels() {
+			    return sDUnitGroupModels;
+			}
+		};
+
 	}
 
 	public void showUnitModels(Activity activity) {
