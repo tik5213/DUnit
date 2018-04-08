@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="ftas.top.sample_test_kotlin_library">
+    <application>
+        <activity android:name=".SampleTestKotlinLibraryActivity" />
+
+    </application>
+</manifest>

@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/dunit-compiler/dunit-compiler.iml" filepath="$PROJECT_DIR$/dunit-compiler/dunit-compiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/dunit-library/dunit-library.iml" filepath="$PROJECT_DIR$/dunit-library/dunit-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample-test-kotlin-library/sample-test-kotlin-library.iml" filepath="$PROJECT_DIR$/sample-test-kotlin-library/sample-test-kotlin-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample-test-library/sample-test-library.iml" filepath="$PROJECT_DIR$/sample-test-library/sample-test-library.iml" />
     </modules>
   </component>
