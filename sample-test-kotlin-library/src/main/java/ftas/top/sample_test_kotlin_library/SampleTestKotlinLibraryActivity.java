@@ -29,5 +29,7 @@ public class SampleTestKotlinLibraryActivity extends Activity{
 
         textView.setText(str);
 
+        new TestBean();
+
     }
 }
