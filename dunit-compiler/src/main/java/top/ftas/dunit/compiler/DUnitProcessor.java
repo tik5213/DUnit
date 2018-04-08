@@ -123,17 +123,20 @@ public class DUnitProcessor extends AbstractProcessor {
         mUnitModelUtil = new DUnitModelUtil(mErrorReporter, mTypes);
         mErrorReporter.print("init success.");
 
-        String oldClassNameIntStr = System.getProperty("DUnitManager_AutoImpl_ClassNameInt");
-        int classNameInt = 1;
-        if (oldClassNameIntStr != null && !"".equals(oldClassNameIntStr)) {
-            classNameInt = Integer.valueOf(oldClassNameIntStr) + 1;
-        }
-        if (classNameInt > DUnitConstant.Sys.DUNIT_MANAGER_MAX_AUTO_IMPLE_INT) {
-            throw new RuntimeException("DUnitManager_AutoImpl_ClassNameInt classNameInt大于" + DUnitConstant.Sys.DUNIT_MANAGER_MAX_AUTO_IMPLE_INT + " 过多的模块引用了 DUnit");
-        }
-        System.setProperty("DUnitManager_AutoImpl_ClassNameInt", "" + classNameInt);
-        mAutoImplClassName = DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME + "_" + classNameInt;
+        mAutoImplClassName = DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME + "_" + getClassNameInitStr();
         mErrorReporter.print("DUnitManager_AutoImpl_ClassNameInt = " + mAutoImplClassName);
+    }
+
+    private synchronized String getClassNameInitStr(){
+        int classNameInt = 1+ (int) (Math.random()*DUnitConstant.Sys.DUNIT_MANAGER_MAX_AUTO_IMPLE_INT);
+        String clssNameIntStr = String.format("%03d",classNameInt);
+        String oldClassNameIntStr = "" + System.getProperty("DUnitManager_AutoImpl_ClassNameInt");
+        if (oldClassNameIntStr.contains(clssNameIntStr)){
+            return getClassNameInitStr();
+        }else {
+            System.setProperty("DUnitManager_AutoImpl_ClassNameInt", oldClassNameIntStr + "," + clssNameIntStr);
+            return clssNameIntStr;
+        }
     }
 
 
