@@ -6,12 +6,16 @@ project.xcworkspace/
 xcuserdata/
 UserInterface.xcuserstate
 bin
+build
 gen
 .settings
 lint-results.*ml
 lint-results_files
 *.DS_Store
 KuKuJSBridge/kuku-server-net/web/WEB-INF/classes/*
+.gradle
 .idea
-*.swp
 .idea/*
+*.iml
+/local.properties
+*.swp
