@@ -2,12 +2,9 @@ package top.ftas.dunit.core;
 
 import android.app.Activity;
 import android.content.Context;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import top.ftas.dunit.annotation.DUnit;
-import top.ftas.dunit.model.DUnitModel;
-import top.ftas.dunit.util.LogUtil;
+import top.ftas.dunit.util.MessageUtil;
 
 /**
  * Created by tik on 17/6/28.
@@ -59,6 +56,7 @@ public abstract class AbstractDisplayUnit implements Runnable{
 	@Override
 	public void run() {
 		try {
+			MessageUtil.setResultMessageHelper(getMessageHelper());
 			onPrepared();
 			callUnit();
 			onCalled();
