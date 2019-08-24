@@ -32,7 +32,7 @@ dependencies {
     try {
         compile project(':dunit-library')
     } catch(Exception ex) {
-        compile 'top.ftas:dunit-library:1.5'
+        compile 'top.ftas:dunit-library:2.0'
     }
     testCompile 'junit:junit:4.12'
 }
