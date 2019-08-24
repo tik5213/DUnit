@@ -1,16 +1,20 @@
 package top.ftas.dunit.core;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.model.DUnitBaseModel;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
+import top.ftas.dunit.util.ClassUtils;
 import top.ftas.dunit.util.DUnitConstant;
 import top.ftas.dunit.util.DUnitManagerUtil;
 import top.ftas.dunit.util.LogUtil;
@@ -44,11 +48,14 @@ public abstract class DUnitManager {
 		mModelMap = createModelMap(mUnitGroupModels, mUnitModels);
 	}
 
-	public static DUnitManager getInstance() {
+	public static DUnitManager getInstance(Context context) {
 		if (sInstance == null) {
 			synchronized (DUnitManager.class) {
 				if (sInstance == null) {
-                    sInstance = createDUnitManager();
+				    if (context == null){
+				    	throw new IllegalArgumentException("DUnitManager getInstance context 为 null");
+				    }
+                    sInstance = createDUnitManager(context);
 				}
 			}
 		}
@@ -58,12 +65,14 @@ public abstract class DUnitManager {
 	public static ArrayList<DUnitGroupModel>  sDUnitGroupModels = new ArrayList<>();
 	public static ArrayList<DUnitModel> sDUnitModels = new ArrayList<>();
 
-	private static DUnitManager createDUnitManager(){
+	private static DUnitManager createDUnitManager(Context context){
 		HashSet<DUnitGroupModel> dUnitGroupModels = new HashSet<>();
 		HashSet<DUnitModel> dUnitModels = new HashSet<>();
-		for (int i = 1; i <= DUnitConstant.Sys.DUNIT_MANAGER_MAX_AUTO_IMPLE_INT; i++) {
-			try {
-				String autoImplClassName = DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_CANONICAL_NAME + "_" + i;
+		try {
+			Set<String> routerMap = ClassUtils.getFileNameByPackageName(context,DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_PKG);
+			Iterator<String> allClassName = routerMap.iterator();
+			while (allClassName.hasNext()){
+				String autoImplClassName = allClassName.next();
 				Class<?> clazz = Class.forName(autoImplClassName);
 				DUnitManager dUnitManager = (DUnitManager) clazz.newInstance();
 				ArrayList<DUnitGroupModel> dUnitGroupModelArrayList = dUnitManager.initUnitGroupModels();
@@ -71,10 +80,10 @@ public abstract class DUnitManager {
 
 				ArrayList<DUnitModel> dUnitModelArrayList = dUnitManager.initUnitModels();
 				dUnitModels.addAll(dUnitModelArrayList);
-			}catch (Throwable throwable){
-				throwable.printStackTrace();
-				throwable.printStackTrace();
 			}
+
+		} catch (Exception e) {
+			Log.e("error",Log.getStackTraceString(e));
 		}
 
 		sDUnitGroupModels.addAll(dUnitGroupModels);

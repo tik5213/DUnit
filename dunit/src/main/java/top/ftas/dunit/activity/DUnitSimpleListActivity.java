@@ -58,6 +58,7 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mActivity = this;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
 		TypefaceUtil.getIconTypeFace(this);
 		StatusBarUtils.setWindowStatusBarColor(this,R.color.dunitColorPrimaryDark);
@@ -65,7 +66,7 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 		ArrayList<DUnitBaseModel> unitModels;
 		try {
 			Class<? extends DUnitGroupInterface> group = getCurrentGroup();
-			DUnitManager dUnitManager = DUnitManager.getInstance();
+			DUnitManager dUnitManager = DUnitManager.getInstance(mActivity);
 			unitModels = dUnitManager.getModelMap().get(group);
 		}catch (Throwable e){
 			LogUtil.log(this,e);
@@ -88,7 +89,6 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 		showHomeButton();
 		setActionBarTitle();
 
-		mActivity = this;
 		initMainView();
 
 
@@ -139,7 +139,7 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 			return;
 		}
 		Class<? extends DUnitGroupInterface> currentGroup = getCurrentGroup();
-		ArrayList<DUnitGroupModel> groupModels = DUnitManager.getInstance().getUnitGroupModels();
+		ArrayList<DUnitGroupModel> groupModels = DUnitManager.getInstance(mActivity).getUnitGroupModels();
 		for (DUnitGroupModel groupModel: groupModels) {
 			if (groupModel.getOriginal() == currentGroup){
 				getSupportActionBar().setTitle(groupModel.getName());

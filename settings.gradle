@@ -1,1 +1,7 @@
-include ':dunit', ':sample', ':dunit-compiler', ':dunit-library', ':sample-test-library', ':sample-test-kotlin-library'
+include ':dunit',
+        ':dunit-compiler',
+        ':dunit-library',
+        ':sample-simple',
+        ':sample',
+        ':sample-test-library',
+        ':sample-test-kotlin-library'

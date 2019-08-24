@@ -9,16 +9,10 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -35,6 +29,8 @@ import javax.lang.model.util.Types;
 
 import top.ftas.dunit.annotation.DUnit;
 import top.ftas.dunit.annotation.DUnitGroup;
+import top.ftas.dunit.compiler.utils.Consts;
+import top.ftas.dunit.compiler.utils.MapUtils;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
 import top.ftas.dunit.util.DUnitConstant;
@@ -54,96 +50,47 @@ public class DUnitProcessor extends AbstractProcessor {
 
     private String mAutoImplClassName;
 
-    @Override
+    private String mModuleName;
+
     /**
      * 被注解处理工具调用，参数ProcessingEnvironment 提供了Element，Filer，Messager等工具
      */
+    @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
-        initWithLock(processingEnvironment);
-    }
-
-    /**
-     * 利用文件锁进行进程间同步
-     * @param processingEnvironment
-     */
-    private void initWithLock(ProcessingEnvironment processingEnvironment) {
-        //文件锁所在文件
-        File lockFile = new File("/var/tmp/DUnitProcessor.lock");
-        FileOutputStream outStream = null;
-        FileLock lock = null;
-
-        try {
-            outStream = new FileOutputStream(lockFile);
-            FileChannel channel = outStream.getChannel();
-            try {
-                //方法一
-                lock = channel.lock();
-                System.out.println("Get the Lock!");
-                //do something...
-                initNormal(processingEnvironment);
-
-                //方法二
-                //lock = channel.tryLock();
-                //if(lock != null){
-                //  do something..
-                //}
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (null != lock) {
-                try {
-                    System.out.println("Release The Lock" + new Date().toString());
-                    lock.release();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (outStream != null) {
-                try {
-                    outStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        initNormal(processingEnvironment);
     }
 
     /**
      * 利用 synchronized 进行线程间同步
-     * @param processingEnvironment
      */
     private synchronized void initNormal(ProcessingEnvironment processingEnvironment) {
         mTypes = processingEnvironment.getTypeUtils();
         mErrorReporter = new ErrorReporter(processingEnvironment);
         mUnitModelUtil = new DUnitModelUtil(mErrorReporter, mTypes);
+
+        //尝试获取用户配置的 moduleName
+        Map<String,String> options = processingEnvironment.getOptions();
+        if (MapUtils.isNotEmpty(options)){
+            mModuleName = options.get(Consts.KEY_MODULE_NAME);
+        }
+
+        if (mModuleName == null || "".equals(mModuleName)){
+            mAutoImplClassName = DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME;
+        }else {
+            mAutoImplClassName = DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_NAME_PREFIX + mModuleName;
+        }
+
         mErrorReporter.print("init success.");
 
-        mAutoImplClassName = DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME + "_" + getClassNameInitStr();
         mErrorReporter.print("DUnitManager_AutoImpl_ClassNameInt = " + mAutoImplClassName);
-    }
-
-    private synchronized String getClassNameInitStr(){
-        int classNameInt = 1+ (int) (Math.random()*DUnitConstant.Sys.DUNIT_MANAGER_MAX_AUTO_IMPLE_INT);
-        String clssNameIntStr = String.format("%03d",classNameInt);
-        String oldClassNameIntStr = "" + System.getProperty("DUnitManager_AutoImpl_ClassNameInt");
-        if (oldClassNameIntStr.contains(clssNameIntStr)){
-            return getClassNameInitStr();
-        }else {
-            System.setProperty("DUnitManager_AutoImpl_ClassNameInt", oldClassNameIntStr + "," + clssNameIntStr);
-            return clssNameIntStr;
-        }
     }
 
 
     /**
      * 处理DUnit注解
      */
-    public MethodSpec processUnitElements(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+    private MethodSpec processUnitElements(@SuppressWarnings("unused") Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         //获取所有被DUnit注解的Element
         Collection<? extends Element> annotatedUnitElements = roundEnvironment.getElementsAnnotatedWith(DUnit.class);
 
@@ -190,7 +137,7 @@ public class DUnitProcessor extends AbstractProcessor {
     /**
      * 处理DUnitGroup注解
      */
-    public MethodSpec processUnitGroupElements(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+    private MethodSpec processUnitGroupElements(@SuppressWarnings("unused") Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         //获取所有被DUnitGroup注解的Element
         Collection<? extends Element> annotatedUnitGroupElements = roundEnvironment.getElementsAnnotatedWith(DUnitGroup.class);
 
@@ -234,10 +181,10 @@ public class DUnitProcessor extends AbstractProcessor {
         return null;
     }
 
-    @Override
     /**
      * 在这里扫描和处理你的注解并生成Java代码
      */
+    @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         MethodSpec methodSpec_initUnitModels = processUnitElements(set, roundEnvironment);
         MethodSpec methodSpec_initUnitGroupModels = processUnitGroupElements(set, roundEnvironment);
@@ -290,21 +237,21 @@ public class DUnitProcessor extends AbstractProcessor {
     }
 
 
-    @Override
     /**
      *  指定注解处理器是注册给那一个注解的，它是一个字符串的集合，意味着可以支持多个类型的注解，并且字符串是合法全名。
      *  可用注解SupportedAnnotationTypes代替
      */
+    @Override
     public Set<String> getSupportedAnnotationTypes() {
         //创建一个不可变集合
         return ImmutableSet.of(DUnit.class.getCanonicalName(), DUnitGroup.class.getCanonicalName());
     }
 
-    @Override
     /**
      * 指定Java版本
      * 可用注解SupportedSourceVersion代替
      */
+    @Override
     public SourceVersion getSupportedSourceVersion() {
         return SourceVersion.latestSupported();
     }
@@ -316,6 +263,7 @@ public class DUnitProcessor extends AbstractProcessor {
      * @param unitGroupModels 保存DUnitGroupModel
      * @param type            TypeElement
      */
+    @SuppressWarnings("unused")
     private void processType(ArrayList<DUnitModel> unitModels, ArrayList<DUnitGroupModel> unitGroupModels, TypeElement type) {
         if (type.getKind() != ElementKind.CLASS) {
             mErrorReporter.abortWithError("@" + DUnit.class.getName() + " only applies to classes", type);

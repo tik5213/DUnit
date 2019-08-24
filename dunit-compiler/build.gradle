@@ -13,7 +13,7 @@ dependencies {
     //用于自动生成java源代码的类库
     compile 'com.squareup:javapoet:1.9.0'
     //google提供的一个注册处理器的类库
-    compile 'com.google.auto.service:auto-service:1.0-rc2'
+    compile 'com.google.auto.service:auto-service:1.0-rc4'
 
 }
 
