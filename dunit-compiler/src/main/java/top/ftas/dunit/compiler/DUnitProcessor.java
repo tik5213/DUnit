@@ -9,6 +9,7 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -75,15 +76,66 @@ public class DUnitProcessor extends AbstractProcessor {
             mModuleName = options.get(Consts.KEY_MODULE_NAME);
         }
 
-        if (mModuleName == null || "".equals(mModuleName)){
+        autoParseProjectModuleName(processingEnvironment);
+
+        if (mModuleName != null){
+            mModuleName = mModuleName.replaceAll("[^0-9a-zA-Z_]+", "_");
+        }
+
+        if (mModuleName == null || "".equals(mModuleName) || mModuleName.contains("null")){
             mAutoImplClassName = DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_SIMPLE_NAME;
         }else {
+            mErrorReporter.print("error!!! no ModuleName （DUNIT_MODULE_NAME）");
             mAutoImplClassName = DUnitConstant.Sys.DUNIT_MANAGER_AUTO_IMPL_NAME_PREFIX + mModuleName;
         }
 
         mErrorReporter.print("init success.");
 
-        mErrorReporter.print("DUnitManager_AutoImpl_ClassNameInt = " + mAutoImplClassName);
+        mErrorReporter.print("DUnitManager_AutoImpl_ClassName = " + mAutoImplClassName);
+    }
+
+    /**
+     * 反射获取项目模块名作为 DUnit 唯一标识
+     */
+    private void autoParseProjectModuleName(ProcessingEnvironment processingEnvironment) {
+        if (mModuleName == null || "".equals(mModuleName)){
+            try {
+                mErrorReporter.print("从 processingEnvironment 中获取 sourcepath 解析 ModuleName");
+                //((JavacProcessingEnvironment) processingEnvironment).options.get("-sourcepath");
+                Field optionsField = processingEnvironment.getClass().getDeclaredField("options");
+                optionsField.setAccessible(true);
+                //com.sun.tools.javac.util.Options
+                Object processOptions = optionsField.get(processingEnvironment);
+
+                //通过 om.sun.tools.javac.util.Options 的 get 方法获取 sourcepath
+                //Method optionGetMethod = processOptions.getClass().getDeclaredMethod("get",String.class);
+                //optionGetMethod.setAccessible(true);
+                //  .../DUnit/sample-test-library/build/tmp/compileDebugJavaWithJavac/emptySourcePathRef
+                //String sourcePath = (String) optionGetMethod.invoke(processOptions,"-sourcepath");
+
+                Field valuesField = processOptions.getClass().getDeclaredField("values");
+                valuesField.setAccessible(true);
+                Map valueMap = (Map) valuesField.get(processOptions);
+
+                //mErrorReporter.print("valueMapKey = " + valueMap.keySet());
+
+                // apt 使用关键字 -sourcepath
+                // kotlin 使用关键字 -s
+
+                String sourcePath;
+                if (valueMap.containsKey("-sourcepath")){
+                    sourcePath = (String) valueMap.get("-sourcepath");
+                }else {
+                    sourcePath = (String) valueMap.get("-s");
+                }
+
+
+                sourcePath = sourcePath.substring(0,sourcePath.indexOf("/build/"));
+                mModuleName = sourcePath.substring(sourcePath.lastIndexOf("/") + 1);
+            }catch (Throwable e){
+                e.printStackTrace();
+            }
+        }
     }
 
 
