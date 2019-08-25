@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 import javax.lang.model.element.Modifier;
 
-import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.model.DUnitBaseModel;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
@@ -50,7 +49,8 @@ public class InitMethodUtil {
 
 		//return type，返回值
 		Type type_Value = GenericTypesUtil.type(ArrayList.class,DUnitBaseModel.class);
-		Type type_Key = GenericTypesUtil.getWildcardType(Class.class,DUnitGroupInterface.class);
+//		Type type_Key = GenericTypesUtil.getWildcardType(Class.class,DUnitGroupInterface.class);
+		Type type_Key = Class.class;
 		ParameterizedType returnType = GenericTypesUtil.type(HashMap.class, type_Key, type_Value);
 
 		//参数

@@ -6,7 +6,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.group.DUnitRootGroup;
 import top.ftas.dunit.model.DUnitBaseModel;
 import top.ftas.dunit.model.DUnitGroupModel;
@@ -67,16 +66,16 @@ public class DUnitManagerUtil {
                 unitGroupModel.setOriginal(unitGroupClass);
 
                 //DUnitGroupInterface
-                DUnitGroupInterface tmpUnitGroupInterface = (DUnitGroupInterface) unitGroupClass.newInstance();
+                Object groupObj = unitGroupClass.newInstance();
 
                 //Name
-                unitGroupModel.setName(ModelValueUtil.getStringValue(unitGroupModel,unitGroupModel.getName(),tmpUnitGroupInterface.getName()));
+                unitGroupModel.setName(ModelValueUtil.getNameValue(unitGroupModel,groupObj));
 
                 //Priority
-                unitGroupModel.setPriority(ModelValueUtil.getIntValue(unitGroupModel,unitGroupModel.getPriority(),tmpUnitGroupInterface.getPriority()));
+                unitGroupModel.setPriority(ModelValueUtil.getPriorityValue(unitGroupModel,groupObj));
 
                 //Group
-                unitGroupModel.setGroup(ModelValueUtil.getGroupGroup(unitGroupModel,unitGroupModel.getGroupClassName(),tmpUnitGroupInterface.getGroup()));
+                unitGroupModel.setGroup(ModelValueUtil.getGroupGroup(unitGroupModel,groupObj));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -86,8 +85,8 @@ public class DUnitManagerUtil {
         return unitGroupModels;
     }
 
-    public static HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels) {
-        HashMap<Class<? extends DUnitGroupInterface>,ArrayList<DUnitBaseModel>> modelMap = new HashMap<>();
+    public static HashMap<Class, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels) {
+        HashMap<Class,ArrayList<DUnitBaseModel>> modelMap = new HashMap<>();
         modelMap.put(DUnitRootGroup.class,new ArrayList<DUnitBaseModel>());
 
         for (DUnitGroupModel unitGroupModel: unitGroupModels) {
@@ -97,15 +96,17 @@ public class DUnitManagerUtil {
 
         //根据所属组，将所有组分类
         for (DUnitGroupModel unitGroupModel: unitGroupModels) {
-            Class<? extends DUnitGroupInterface> group = unitGroupModel.getGroup();
-            if (group == unitGroupModel.getOriginal()) continue;
+            Class group = unitGroupModel.getGroup();
+            if (!modelMap.containsKey(group)){
+                group = DUnitRootGroup.class;
+            }
             modelMap.get(group).add(unitGroupModel);
         }
 
 
         //根据所属组，将所有Unit分类
         for (DUnitModel unitModel: unitModels) {
-            Class<? extends DUnitGroupInterface> group = unitModel.getGroup();
+            Class group = unitModel.getGroup();
             modelMap.get(group).add(unitModel);
         }
         return modelMap;

@@ -22,11 +22,11 @@ public class DUnitRootGroup implements DUnitGroupInterface{
 	}
 
 	@Override
-	public Class<? extends DUnitGroupInterface> getGroup() {
+	public Class getGroup() {
 		if (getClass() == DUnitRootGroup.class){
 			return DUnitRootGroup.class;
 		}else {
-			return (Class<? extends DUnitGroupInterface>) getClass().getSuperclass();
+			return getClass().getSuperclass();
 		}
 	}
 }

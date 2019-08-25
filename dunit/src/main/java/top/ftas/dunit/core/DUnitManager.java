@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.model.DUnitBaseModel;
 import top.ftas.dunit.model.DUnitGroupModel;
 import top.ftas.dunit.model.DUnitModel;
@@ -29,9 +28,9 @@ public abstract class DUnitManager {
 	private static DUnitManager sInstance;
 	private ArrayList<DUnitModel> mUnitModels;
 	private ArrayList<DUnitGroupModel> mUnitGroupModels;
-	private HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> mModelMap;
+	private HashMap<Class, ArrayList<DUnitBaseModel>> mModelMap;
 
-	protected abstract HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels);
+	protected abstract HashMap<Class, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels);
 
 	protected  ArrayList<DUnitModel> initUnitModels(){
 		return new ArrayList<>();
@@ -91,7 +90,7 @@ public abstract class DUnitManager {
 
 		return new DUnitManager() {
 			@Override
-			protected HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels) {
+			protected HashMap<Class, ArrayList<DUnitBaseModel>> createModelMap(ArrayList<DUnitGroupModel> unitGroupModels, ArrayList<DUnitModel> unitModels) {
 				return DUnitManagerUtil.createModelMap(unitGroupModels,unitModels);
 			}
 
@@ -124,7 +123,7 @@ public abstract class DUnitManager {
 		return mUnitGroupModels;
 	}
 
-	public HashMap<Class<? extends DUnitGroupInterface>, ArrayList<DUnitBaseModel>> getModelMap() {
+	public HashMap<Class, ArrayList<DUnitBaseModel>> getModelMap() {
 		return mModelMap;
 	}
 

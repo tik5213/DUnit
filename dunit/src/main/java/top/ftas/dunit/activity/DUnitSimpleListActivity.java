@@ -65,7 +65,7 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 		super.onCreate(savedInstanceState);
 		ArrayList<DUnitBaseModel> unitModels;
 		try {
-			Class<? extends DUnitGroupInterface> group = getCurrentGroup();
+			Class group = getCurrentGroup();
 			DUnitManager dUnitManager = DUnitManager.getInstance(mActivity);
 			unitModels = dUnitManager.getModelMap().get(group);
 		}catch (Throwable e){
@@ -152,14 +152,14 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 		return mSupportActionBar;
 	}
 
-	private Class<? extends DUnitGroupInterface> getCurrentGroup() {
+	private Class getCurrentGroup() {
 		if (mCurrentGroup == null){
 			Intent intent = getIntent();
 			if (intent == null) {
 				mCurrentGroup = getRootGroup();
 			}else {
 				try {
-					Class<? extends DUnitGroupInterface> group = (Class<? extends DUnitGroupInterface>) intent.getSerializableExtra(KEY_GROUP);
+					Class<? extends DUnitGroupInterface> group = (Class) intent.getSerializableExtra(KEY_GROUP);
 					mCurrentGroup = group == null ? getRootGroup() : group;
 				}catch (Exception e){
 					mCurrentGroup = getRootGroup();
@@ -169,7 +169,7 @@ public class DUnitSimpleListActivity extends Activity implements DUnitSupportAct
 		return mCurrentGroup;
 	}
 
-	protected Class<? extends DUnitGroupInterface> getRootGroup() {
+	protected Class getRootGroup() {
 		return DUnitRootGroup.class;
 	}
 

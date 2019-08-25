@@ -7,5 +7,5 @@ package top.ftas.dunit.group;
 public interface DUnitGroupInterface {
 	String getName();
 	int getPriority();
-	Class<? extends DUnitGroupInterface> getGroup();
+	Class getGroup();
 }

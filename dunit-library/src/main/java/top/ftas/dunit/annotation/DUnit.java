@@ -6,7 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import top.ftas.dunit.group.DUnitGroupInterface;
 import top.ftas.dunit.util.DUnitConstant;
 
 import static top.ftas.dunit.util.DUnitConstant.Sys.DEFAULT_VALUE_STRING;
@@ -35,5 +34,5 @@ public @interface DUnit {
 
     String unitType() default DEFAULT_VALUE_STRING;
 
-    Class<? extends DUnitGroupInterface> group() default DUnitConstant.Sys.DEFAULT_VALUE_GROUP.class;
+    Class group() default DUnitConstant.Sys.DEFAULT_VALUE_GROUP.class;
 }

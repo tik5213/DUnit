@@ -1,5 +1,6 @@
 package top.ftas.dunit.compiler;
 
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -170,7 +171,7 @@ public class DUnitModelUtil {
 
 		//Name
 		String name = dUnitGroup.value();
-		if (Strings.isNullOrEmpty(name)){
+		if ("".equals(name)){
 			name = dUnitGroup.name();
 		}
 		unitGroupModel.setName(name);

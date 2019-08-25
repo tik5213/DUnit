@@ -1,7 +1,5 @@
 package top.ftas.dunit.model;
 
-import top.ftas.dunit.group.DUnitGroupInterface;
-
 /**
  * Created by tik on 17/6/29.
  */
@@ -16,7 +14,7 @@ public abstract class DUnitBaseModel {
 	private String originalClassName;
 
 	private String groupClassName;
-	private Class<? extends DUnitGroupInterface> group;
+	private Class group;
 
 	public boolean isDirectlyAnnotated() {
 		return isDirectlyAnnotated;
@@ -50,11 +48,11 @@ public abstract class DUnitBaseModel {
 		this.originalClassName = originalClassName;
 	}
 
-	public Class<? extends DUnitGroupInterface> getGroup() {
+	public Class getGroup() {
 		return group;
 	}
 
-	public void setGroup(Class<? extends DUnitGroupInterface> group) {
+	public void setGroup(Class group) {
 		this.group = group;
 	}
 

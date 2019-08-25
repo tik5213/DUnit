@@ -14,20 +14,50 @@ import static top.ftas.dunit.util.DUnitConstant.Sys.DEFAULT_VALUE_STRING;
  */
 
 public class ModelValueUtil {
-	public static int getIntValue(DUnitBaseModel model,int annotationValue, int tmpValue){
-		annotationValue = annotationValue == DEFAULT_VALUE_INT ? tmpValue : annotationValue;
-		tmpValue = tmpValue == DEFAULT_VALUE_INT ? annotationValue : tmpValue;
-		return model.isDirectlyAnnotated() ? annotationValue : tmpValue;
+	public static int getPriorityValue(DUnitBaseModel model,Object groupObj){
+		int annotationValue = model.getPriority();
+		int groupObjValue;
+		if (groupObj instanceof DUnitGroupInterface){
+			groupObjValue = ((DUnitGroupInterface) groupObj).getPriority();
+		}else {
+			groupObjValue = DEFAULT_VALUE_INT;
+		}
+
+		if (annotationValue == DEFAULT_VALUE_INT){
+			return groupObjValue;
+		}else if (groupObjValue == DEFAULT_VALUE_INT){
+			return annotationValue;
+		}
+		return model.isDirectlyAnnotated() ? annotationValue : groupObjValue;
 	}
 
-	public static String getStringValue(DUnitBaseModel model,String annotationValue,String tmpValue){
-		if (DEFAULT_VALUE_STRING.equals(annotationValue)) annotationValue = tmpValue;
-		if (DEFAULT_VALUE_STRING.equals(tmpValue)) tmpValue = annotationValue;
-		return model.isDirectlyAnnotated() ? annotationValue : tmpValue;
+	public static String getNameValue(DUnitBaseModel model,Object groupObj){
+		String annotationValue = model.getName();
+		String groupObjValue;
+		if (groupObj instanceof DUnitGroupInterface){
+			groupObjValue = ((DUnitGroupInterface) groupObj).getName();
+		}else {
+			groupObjValue = model.getOriginal().getSimpleName();
+		}
+		if (DEFAULT_VALUE_STRING.equals(annotationValue)){
+			return groupObjValue;
+		}else if (DEFAULT_VALUE_STRING.equals(groupObjValue)){
+		    return annotationValue;
+		}else {
+			return model.isDirectlyAnnotated() ? annotationValue : groupObjValue;
+		}
 	}
 
-	public static Class<? extends DUnitGroupInterface> getGroupGroup(DUnitBaseModel unitGroupModel, String annotationGroupName, Class<? extends DUnitGroupInterface> tmpGroup){
+	public static Class getGroupGroup(DUnitBaseModel unitGroupModel, Object groupObj){
 		try {
+			String annotationGroupName = unitGroupModel.getGroupClassName();
+			Class tmpGroup;
+			if (groupObj instanceof DUnitGroupInterface){
+			    tmpGroup = ((DUnitGroupInterface) groupObj).getGroup();
+			}else {
+				tmpGroup = groupObj.getClass().getSuperclass();
+			}
+
 			String tmpGroupName = tmpGroup.getName();
 			if (DEFAULT_VALUE_GROUP_NAME.equals(annotationGroupName) && DEFAULT_VALUE_GROUP_NAME.equals(tmpGroupName)){
 				return DUnitRootGroup.class;
@@ -36,13 +66,11 @@ public class ModelValueUtil {
 					if (DEFAULT_VALUE_GROUP_NAME.equals(annotationGroupName)){
 						return tmpGroup;
 					}else {
-						Class<? extends DUnitGroupInterface> group = (Class<? extends DUnitGroupInterface>) Class.forName(annotationGroupName);
-						return group;
+						return Class.forName(annotationGroupName);
 					}
 				}else {
 					if (DEFAULT_VALUE_GROUP_NAME.equals(tmpGroupName)){
-						Class<? extends DUnitGroupInterface> group = (Class<? extends DUnitGroupInterface>) Class.forName(annotationGroupName);
-						return group;
+						return Class.forName(annotationGroupName);
 					}else {
 						return tmpGroup;
 					}
@@ -65,12 +93,11 @@ public class ModelValueUtil {
 		}
 	}
 
-	public static Class<? extends DUnitGroupInterface> getUnitGroup(DUnitBaseModel unitModel){
+	public static Class getUnitGroup(DUnitBaseModel unitModel){
 		try {
 			String groupClassName = unitModel.getGroupClassName();
-//			Log.i("test","---------> groupClassName:" + groupClassName + " unitModel:" + unitModel);
 			if (!DEFAULT_VALUE_GROUP_NAME.equals(groupClassName)) {
-				Class<? extends DUnitGroupInterface> group = (Class<? extends DUnitGroupInterface>) Class.forName(groupClassName);
+				Class group =  Class.forName(groupClassName);
 				return group;
 			}
 		}catch (Exception e){
