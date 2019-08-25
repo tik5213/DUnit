@@ -14,21 +14,7 @@ dependencies {
 
 # Usage1
 
-1. Modify AndroidManifest.xml:
-
-	```java
-	<activity android:name="top.ftas.dunit.activity.DUnitSimpleListActivity">
-		<intent-filter>
-			<action android:name="android.intent.action.MAIN"/>
-			<category android:name="android.intent.category.LAUNCHER"/>
-		</intent-filter>
-	</activity>
-	<activity android:name="top.ftas.dunit.activity.SingleFragmentActivity" />
-	<activity android:name="top.ftas.dunit.activity.SingleSupportFragmentActivity" />
-	<activity android:name=".BaseActivity" />
-	```
-
-2. Add annotations to existing activities：
+Add annotations to existing activities：
 	
 	```java
 	@DUnit
@@ -37,27 +23,14 @@ dependencies {
 
 # Usage2
 
-1. Modify AndroidManifest.xml:
-
-	```java
-	<activity android:name="top.ftas.dunit.activity.DUnitSimpleListActivity">
-		<intent-filter>
-			<action android:name="android.intent.action.MAIN"/>
-			<category android:name="android.intent.category.LAUNCHER"/>
-		</intent-filter>
-	</activity>
-	<activity android:name="top.ftas.dunit.activity.SingleFragmentActivity" />
-	<activity android:name="top.ftas.dunit.activity.SingleSupportFragmentActivity" />
-	```
-
-2. Define groups:
+1. Define groups:
 
 	```java
 	@DUnitGroup("HttpGroup")
 	public class HttpGroup extends DUnitRootGroup{}
 	```
 
-3. Create a display unit:
+2. Create a display unit:
 
 	```java
 	@DUnit(
@@ -67,6 +40,32 @@ dependencies {
 	public class RetrofitDisplayUnit extends AbstractDisplayUnit{
 		@Override
 		public void callUnit() { /* Do something */ }
+	}
+	```
+
+# Usage3
+
+### java
+
+	```sh
+	android {
+		defaultConfig {
+			javaCompileOptions {
+				annotationProcessorOptions {
+					arguments = [DUNIT_MODULE_NAME : "sample"]
+				}
+			}
+		}
+	}
+	```
+	
+### kotlin
+
+	```sh
+	kapt {
+		arguments {
+			arg("DUNIT_MODULE_NAME", "sample_kotlin")
+		}
 	}
 	```
 
