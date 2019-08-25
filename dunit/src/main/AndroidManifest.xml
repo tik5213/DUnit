@@ -2,4 +2,14 @@
 
           package="top.ftas.dunit"
     >
+    <application>
+        <activity android:name="top.ftas.dunit.activity.SingleFragmentActivity" />
+        <activity android:name="top.ftas.dunit.activity.SingleSupportFragmentActivity" />
+        <activity android:name="top.ftas.dunit.activity.DUnitSimpleListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>
