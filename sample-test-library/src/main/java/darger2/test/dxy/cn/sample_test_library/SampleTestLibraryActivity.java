@@ -12,7 +12,7 @@ import top.ftas.dunit.annotation.DUnit;
  * Created by tik on 2018/3/26.
  */
 
-@DUnit(paramJson = "{\"testName\":\"我来自其sample以外的它模块\",\"testAge\":18}")
+@DUnit(name = "SampleTestLibraryActivity - paramJson",paramJson = "{\"testName\":\"我来自其sample以外的它模块\",\"testAge\":18}")
 public class SampleTestLibraryActivity extends Activity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
