@@ -1,6 +1,5 @@
 package top.ftas.dunit.compiler;
 
-import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
@@ -18,7 +17,6 @@ import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
@@ -40,7 +38,7 @@ import top.ftas.dunit.util.DUnitConstant;
  * Created by tik on 17/6/27.
  */
 
-@AutoService(Processor.class)
+//@AutoService(Processor.class)
 public class DUnitProcessor extends AbstractProcessor {
     //TypeUtils
     private Types mTypes;
@@ -100,7 +98,7 @@ public class DUnitProcessor extends AbstractProcessor {
     private void autoParseProjectModuleName(ProcessingEnvironment processingEnvironment) {
         if (mModuleName == null || "".equals(mModuleName)){
             try {
-                mErrorReporter.print("从 processingEnvironment 中获取 sourcepath 解析 ModuleName");
+                mErrorReporter.reportWaring("没有设置 javaCompileOptions.annotationProcessorOptions.arguments -> DUNIT_MODULE_NAME 属性。从 processingEnvironment 中获取 sourcepath 解析 ModuleName");
                 //((JavacProcessingEnvironment) processingEnvironment).options.get("-sourcepath");
                 Field optionsField = processingEnvironment.getClass().getDeclaredField("options");
                 optionsField.setAccessible(true);
@@ -128,10 +126,16 @@ public class DUnitProcessor extends AbstractProcessor {
                 }else {
                     sourcePath = (String) valueMap.get("-s");
                 }
+                int sourcePathBuildStrIndex = sourcePath.indexOf("/build/");
+                if (sourcePathBuildStrIndex < 0){
+                    sourcePath = (String) valueMap.get("-s");
+                    sourcePathBuildStrIndex = sourcePath.indexOf("/build/");
+                }
 
-
-                sourcePath = sourcePath.substring(0,sourcePath.indexOf("/build/"));
+                sourcePath = sourcePath.substring(0,sourcePathBuildStrIndex);
                 mModuleName = sourcePath.substring(sourcePath.lastIndexOf("/") + 1);
+
+                mErrorReporter.reportWaring("从 processingEnvironment 中获取 sourcepath 解析 ModuleName 为 == " + mModuleName);
             }catch (Throwable e){
                 e.printStackTrace();
             }

@@ -3,17 +3,17 @@ apply plugin: 'java'
 apply plugin: 'com.novoda.bintray-release'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     //编译处理java文件时的公共类库
-    try {
-        compile project(':dunit-library')
-    } catch(Exception ex) {
-        compile 'top.ftas:dunit-library:1.2'
-    }
+    implementation project(':dunit-library')
+//    try {
+//    } catch(Exception ex) {
+//        compile 'top.ftas:dunit-library:1.2'
+//    }
     //用于自动生成java源代码的类库
-    compile 'com.squareup:javapoet:1.9.0'
+    implementation 'com.squareup:javapoet:1.11.1'
     //google提供的一个注册处理器的类库
-    compile 'com.google.auto.service:auto-service:1.0-rc4'
+    implementation 'com.google.auto.service:auto-service:1.0-rc6'
 
 }
 

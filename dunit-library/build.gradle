@@ -3,8 +3,8 @@ apply plugin: 'java'
 apply plugin: 'com.novoda.bintray-release'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.google.code.gson:gson:2.8.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.code.gson:gson:2.8.5'
     compileOnly files('expandlibs/android.jar')
 }
 
